@@ -4,24 +4,39 @@ package com.somethingsimple.simplelist.db;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
 public class Note implements Parcelable {
 
+    @SerializedName("userId")
+    @Expose
+    @Ignore
+    private Integer userId;
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo
+    @SerializedName("id")
+    @Expose
     private long noteId;
 
     @ColumnInfo
+    @SerializedName("title")
+    @Expose
     private String note;
 
     @ColumnInfo
+    @SerializedName("completed")
+    @Expose
     private boolean checked;
 
     public Note(String note) {

@@ -1,7 +1,18 @@
 apply plugin: 'com.android.application'
 
-android {
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
+android {
+    signingConfigs {
+        config_debug {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.somethingsimple.simplelist"
@@ -10,13 +21,13 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation":
                                      "$projectDir/schemas".toString()]
             }
         }
+        signingConfig signingConfigs.config_debug
     }
     sourceSets {
         androidTest.assets.srcDirs +=
@@ -27,33 +38,47 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig signingConfigs.config_debug
+        }
     }
     buildToolsVersion '28.0.3'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    productFlavors {
+    }
 }
 
 dependencies {
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04'
-    implementation 'androidx.room:room-runtime:2.1.0-alpha06'
-    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha06"
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04'
+    implementation 'com.google.android.material:material:1.0.0'
+    //room
+    implementation 'androidx.room:room-runtime:2.1.0-alpha06'
+    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha06"
+    //dagger
+    implementation 'com.google.dagger:dagger:2.22.1'
+    implementation 'com.google.dagger:dagger-android:2.22.1'
+    implementation 'com.google.dagger:dagger-android-support:2.22.1'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.22.1'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.22.1'
+    //firebase
+    implementation 'com.google.firebase:firebase-core:16.0.8'
+    //butterknife
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.1'
+
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'com.google.dagger:dagger:2.22.1'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.22.1'
-    implementation 'com.google.dagger:dagger-android:2.22.1'
-    implementation 'com.google.dagger:dagger-android-support:2.22.1'
-    // if you use the support libraries
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.22.1'
-    implementation 'com.jakewharton:butterknife:10.1.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 }
+apply plugin: 'com.google.gms.google-services'

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -18,8 +19,8 @@ public interface NoteDao {
     @Query("SELECT * from Note WHERE noteId = :id")
     LiveData<Note> getNoteById(long id);
 
-    @Insert
-    void insert(Note note);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(Note... note);
 
     @Update
     void update(Note note);
