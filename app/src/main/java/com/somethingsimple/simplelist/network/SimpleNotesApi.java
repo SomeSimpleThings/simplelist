@@ -1,5 +1,7 @@
 package com.somethingsimple.simplelist.network;
 
+import com.somethingsimple.simplelist.db.Note;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -11,16 +13,16 @@ import retrofit2.http.Query;
 
 public interface SimpleNotesApi {
 
-    @GET("/todos/{id}")
-    public Call<NotePojo> getNoteWithID(@Path("id") int id);
+    @GET("todos/{id}")
+    public Call<Note> getNoteWithID(@Path("id") int id);
 
-    @GET("/todos")
-    public Call<List<NotePojo>> getAllNotes();
+    @GET("todos")
+    public Call<List<Note>> getAllNotes();
 
-    @GET("/todos")
-    public Call<List<NotePojo>> getNoteOfUser(@Query("userId") int id);
+    @GET("todos")
+    public Call<List<Note>> getNoteOfUser(@Query("userId") int id);
 
-    @POST("/todos")
-    public Call<NotePojo> postData(@Body NotePojo data);
+    @POST("todos")
+    public Call<Note> postData(@Body Note data);
 
 }
