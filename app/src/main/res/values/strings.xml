@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Simple list</string>
+    <string name="dbname">notesDB</string>
+    <string name="hint_note">Note...</string>
+    <string name="button_save">Save</string>
+    <string name="empty_not_saved">Empty</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_delete">Delete</string>
+</resources>
