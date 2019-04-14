@@ -23,6 +23,7 @@ public class NoteViewModel extends AndroidViewModel {
         notesRepo = new NotesRepository();
         liveData = notesRepo.getAllNotes();
         mediatorLiveData = new MediatorLiveData<>();
+        mediatorLiveData.addSource(liveData, notes -> mediatorLiveData.setValue(notes));
     }
 
     public MediatorLiveData<List<Note>> getNotes() {
