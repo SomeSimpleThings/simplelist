@@ -66,6 +66,8 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.22.1'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.22.1'
     //firebase
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+    implementation 'com.google.firebase:firebase-auth:16.2.1'
     implementation 'com.google.firebase:firebase-core:16.0.8'
     //butterknife
     implementation 'com.jakewharton:butterknife:10.1.0'

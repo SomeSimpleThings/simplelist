@@ -7,4 +7,9 @@
     <string name="button_cancel">Cancel</string>
     <string name="button_delete">Delete</string>
     <string name="menu_delete_all">Delete all</string>
+    <string name="sign_out">Sign out</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_in_message">Sign in with Google to keep your notes in cloud</string>
+    <string name="google_ps_error">Google Play Services error.</string>
+    <string name="sign_anon_button">Anonimous</string>
 </resources>
