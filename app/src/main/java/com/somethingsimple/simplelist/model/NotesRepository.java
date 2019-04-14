@@ -53,7 +53,7 @@ class NotesRepository {
         });
     }
 
-    LiveData<Note> getNote(long id) {
+    Note getNote(long id) {
         try {
             return executorService.submit(() -> mNoteDao.getNoteById(id)).get();
         } catch (ExecutionException | InterruptedException e) {
@@ -72,6 +72,14 @@ class NotesRepository {
 
     void delete(Note note) {
         executorService.execute(() -> mNoteDao.delete(note));
+    }
+
+    void delete(long noteId) {
+        executorService.execute(() -> mNoteDao.delete(noteId));
+    }
+
+    void deleteAll() {
+        executorService.execute(mNoteDao::deleteAll);
     }
 
 }

@@ -23,14 +23,13 @@ public class NoteViewModel extends AndroidViewModel {
         notesRepo = new NotesRepository();
         liveData = notesRepo.getAllNotes();
         mediatorLiveData = new MediatorLiveData<>();
-        mediatorLiveData.addSource(liveData, notes -> mediatorLiveData.setValue(notes));
     }
 
     public MediatorLiveData<List<Note>> getNotes() {
         return mediatorLiveData;
     }
 
-    public LiveData<Note> getNote(long id) {
+    public Note getNote(long id) {
         return notesRepo.getNote(id);
     }
 
@@ -44,6 +43,14 @@ public class NoteViewModel extends AndroidViewModel {
 
     public void delete(Note note) {
         notesRepo.delete(note);
+    }
+
+    public void delete(long noteId) {
+        notesRepo.delete(noteId);
+    }
+
+    public void deleteAll() {
+        notesRepo.deleteAll();
     }
 
     @Override

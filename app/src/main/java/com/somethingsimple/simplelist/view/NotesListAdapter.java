@@ -35,6 +35,7 @@ public class NotesListAdapter extends ListAdapter<Note, NotesListAdapter.NotesVi
 
         private final CardView noteItemCard;
         private final TextView noteItemView;
+        private Note mNote;
 
         NotesViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -43,9 +44,14 @@ public class NotesListAdapter extends ListAdapter<Note, NotesListAdapter.NotesVi
         }
 
         private void bind(Note note) {
+            mNote = note;
             noteItemView.setText(note.toString());
             noteItemView.setOnClickListener(v ->
-                    mOnlickListener.onNoteClick(note));
+                    mOnlickListener.onNoteClick(mNote));
+        }
+
+        public Note getNote() {
+            return mNote;
         }
     }
 
