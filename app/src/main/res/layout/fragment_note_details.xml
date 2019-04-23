@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.NoteActivity">
+    tools:context=".view.MainActivity">
 
     <EditText
         android:id="@+id/edit_word"
@@ -13,7 +13,7 @@
         android:layout_marginBottom="7dp"
         android:fontFamily="sans-serif-light"
         android:hint="@string/hint_note"
-        android:inputType="textAutoComplete"
+        android:inputType="textMultiLine"
         android:padding="@dimen/small_padding"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/button_delete"
