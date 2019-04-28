@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
@@ -45,6 +46,7 @@ public class NoteListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         View view = inflater.inflate(R.layout.fragment_note_list, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -73,6 +75,7 @@ public class NoteListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
+        fab.show();
         fab.setOnClickListener(v -> Navigation.findNavController(view)
                 .navigate(R.id.action_noteListFragment_to_noteDetailsFragment));
         return view;

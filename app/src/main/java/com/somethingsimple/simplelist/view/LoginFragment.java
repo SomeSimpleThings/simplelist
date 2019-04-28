@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -24,6 +25,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,6 +54,8 @@ public class LoginFragment extends Fragment
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -60,6 +64,8 @@ public class LoginFragment extends Fragment
         mSignInButton.setOnClickListener(this);
         Button anonSignButton = view.findViewById(R.id.sign_in_anon);
         anonSignButton.setOnClickListener(this);
+        FloatingActionButton floatingActionButton = getActivity().findViewById(R.id.fab);
+        floatingActionButton.hide();
         return view;
     }
 
