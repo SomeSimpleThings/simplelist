@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class NotesListAdapter extends ListAdapter<Note, NotesListAdapter.NotesViewHolder> {
+public class NotesListAdapter extends  ListAdapter<Note, NotesListAdapter.NotesViewHolder> {
 
     private final NoteClickListener mOnlickListener;
 

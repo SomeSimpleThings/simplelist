@@ -2,60 +2,42 @@ package com.somethingsimple.simplelist.model;
 
 import android.app.Application;
 
-import com.somethingsimple.simplelist.db.Note;
-
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.somethingsimple.simplelist.db.Note;
 
 public class NoteViewModel extends AndroidViewModel {
 
-    private NotesRepository notesRepo;
-    private LiveData<List<Note>> liveData;
-
-    private MediatorLiveData<List<Note>> mediatorLiveData;
+    private LiveData<Note> note;
+    private final NoteRepository noteRepository;
 
     public NoteViewModel(@NonNull Application application) {
         super(application);
-        notesRepo = new NotesRepository();
-        liveData = notesRepo.getAllNotes();
-        mediatorLiveData = new MediatorLiveData<>();
-        mediatorLiveData.addSource(liveData, notes -> mediatorLiveData.setValue(notes));
+        noteRepository = new NoteRepository();
     }
 
-    public MediatorLiveData<List<Note>> getNotes() {
-        return mediatorLiveData;
+    public void init(long id) {
+        if (this.note != null) {
+            // ViewModel is created on a per-Fragment basis, so the userId
+            // doesn't change.
+            return;
+        }
+        if (id == -1) note = new MutableLiveData<>(new Note(""));
+        else note = noteRepository.getNote(id);
     }
 
-    public Note getNote(long id) {
-        return notesRepo.getNote(id);
+    public LiveData<Note> getNote() {
+        return note;
     }
 
     public void insert(Note note) {
-        notesRepo.insert(note);
+        noteRepository.insert(note);
     }
 
-    public void update(Note note) {
-        notesRepo.update(note);
-    }
-
-    public void delete(Note note) {
-        notesRepo.delete(note);
-    }
-
-    public void delete(long noteId) {
-        notesRepo.delete(noteId);
-    }
-
-    public void deleteAll() {
-        notesRepo.deleteAll();
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
+    public void insert(String note) {
+        noteRepository.insert(new Note(note));
     }
 }

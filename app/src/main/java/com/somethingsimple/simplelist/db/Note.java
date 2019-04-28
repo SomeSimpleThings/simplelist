@@ -45,7 +45,7 @@ public class Note implements Parcelable {
         this.checked = false;
     }
 
-    protected Note(Parcel in) {
+    Note(Parcel in) {
         noteId = in.readLong();
         note = in.readString();
         checked = in.readByte() != 0;

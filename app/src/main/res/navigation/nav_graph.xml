@@ -9,22 +9,39 @@
         android:id="@+id/noteDetailsFragment"
         android:name="com.somethingsimple.simplelist.view.NoteDetailsFragment"
         android:label="fragment_note_details"
-        tools:layout="@layout/fragment_note_details" />
+        tools:layout="@layout/fragment_note_details">
+        <action
+            android:id="@+id/action_noteDetailsFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="noteId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/noteListFragment"
         android:name="com.somethingsimple.simplelist.view.NoteListFragment"
         android:label="fragment_note_list"
-        tools:layout="@layout/fragment_note_list" >
+        tools:layout="@layout/fragment_note_list">
         <action
             android:id="@+id/action_noteListFragment_to_noteDetailsFragment"
             app:destination="@id/noteDetailsFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" >
+            <argument android:defaultValue="-1L"
+                android:name="noteId" />
+        </action>
         <action
             android:id="@+id/action_noteListFragment_to_signInActivity"
-            app:destination="@id/signInActivity" />
+            app:destination="@id/signInActivity"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <activity

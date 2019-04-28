@@ -10,39 +10,30 @@
         android:id="@+id/edit_word"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="7dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:fontFamily="sans-serif-light"
         android:hint="@string/hint_note"
         android:inputType="textMultiLine"
         android:padding="@dimen/small_padding"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_delete"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button_delete"
-        android:layout_width="188dp"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_details_fragment"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="25dp"
-        android:background="@color/colorPrimary"
-        android:text="@string/button_delete"
-        android:textColor="@color/buttonLabel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_word" />
-
-    <Button
-        android:id="@+id/button_save"
-        android:layout_width="181dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="25dp"
-        android:background="@color/colorPrimary"
-        android:text="@string/button_save"
-        android:textColor="@color/buttonLabel"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/ic_done_black_24dp"
+        app:backgroundTint="@color/accent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

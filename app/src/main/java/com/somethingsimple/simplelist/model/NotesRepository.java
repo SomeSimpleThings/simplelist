@@ -7,7 +7,6 @@ import com.somethingsimple.simplelist.db.NotesDatabase;
 import com.somethingsimple.simplelist.network.NetworkService;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -51,15 +50,6 @@ class NotesRepository {
 
             }
         });
-    }
-
-    Note getNote(long id) {
-        try {
-            return executorService.submit(() -> mNoteDao.getNoteById(id)).get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     void insert(Note... note) {

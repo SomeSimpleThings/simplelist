@@ -3,12 +3,8 @@ package com.somethingsimple.simplelist.view;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,27 +17,26 @@ import android.widget.Toast;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.somethingsimple.simplelist.R;
 import com.somethingsimple.simplelist.SignInActivity;
 import com.somethingsimple.simplelist.db.Note;
-import com.somethingsimple.simplelist.model.NoteViewModel;
+import com.somethingsimple.simplelist.model.NotesViewModel;
 
 public class MainActivity extends AppCompatActivity
         implements GoogleApiClient.OnConnectionFailedListener {
 
 
-    NavController navController;
+    private NavController navController;
 
-    public static final int NEW_NOTE_REQUEST = 1;
-    public static final int EDIT_NOTE_REQUEST = 2;
-    public static final int DELETE_NOTE_REQUEST = 3;
-    public static final String NOTE_EXTRA = "com.somethingsimple.simplelist.note";
+    private static final int NEW_NOTE_REQUEST = 1;
+    private static final int EDIT_NOTE_REQUEST = 2;
+    private static final int DELETE_NOTE_REQUEST = 3;
+    private static final String NOTE_EXTRA = "com.somethingsimple.simplelist.note";
     private static final String ANONYMOUS = "anon";
     private SharedPreferences mSharedPreferences;
-    private NoteViewModel noteViewModel;
+    private NotesViewModel notesViewModel;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private GoogleApiClient mGoogleApiClient;
@@ -75,18 +70,17 @@ public class MainActivity extends AppCompatActivity
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
 
-
-
     }
 
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_delete_all:
-                noteViewModel.deleteAll();
-                return true;
             case R.id.sign_out_menu:
                 mFirebaseAuth.signOut();
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient);
@@ -109,17 +103,17 @@ public class MainActivity extends AppCompatActivity
             switch (requestCode) {
                 case NEW_NOTE_REQUEST:
                     note = data.getParcelableExtra(NOTE_EXTRA);
-                    noteViewModel.insert(note);
+                    notesViewModel.insert(note);
                     break;
                 case EDIT_NOTE_REQUEST:
                     note = data.getParcelableExtra(NOTE_EXTRA);
-                    noteViewModel.update(note);
+                    notesViewModel.update(note);
                     break;
             }
         } else if (resultCode == DELETE_NOTE_REQUEST) {
             note = data.getParcelableExtra(NOTE_EXTRA);
             if (note.getNoteId() != 0) {
-                noteViewModel.delete(note);
+                notesViewModel.delete(note);
             }
         } else {
             Toast.makeText(

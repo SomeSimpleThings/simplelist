@@ -1,27 +1,31 @@
 package com.somethingsimple.simplelist.view;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.somethingsimple.simplelist.R;
 import com.somethingsimple.simplelist.db.Note;
+import com.somethingsimple.simplelist.model.NoteViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class NoteDetailsFragment extends Fragment {
 
+    private NoteViewModel noteViewModel;
 
-    private EditText mEditNoteView;
+    private EditText editText;
+    private FloatingActionButton fab;
     private Note mNote;
 
     public NoteDetailsFragment() {
@@ -32,17 +36,27 @@ public class NoteDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_note_details,
                 container, false);
+        long id = getArguments().getLong("noteId");
+        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
+        noteViewModel.init(id);
+        noteViewModel.getNote().observe(this, note -> {
+            mNote = note;
+            editText = view.findViewById(R.id.edit_word);
+            editText.setText(note.getNote());
+        });
 
-        mEditNoteView = view.findViewById(R.id.edit_word);
-        Button buttonSave = view.findViewById(R.id.button_save);
-        Button buttonDel = view.findViewById(R.id.button_delete);
-        if (getArguments() != null) {
-            mNote = getArguments().getParcelable("note");
-            mEditNoteView.setText(mNote.getNote());
-        }
+        fab = view.findViewById(R.id.fab_details_fragment);
+        fab.setOnClickListener(v -> {
+            String text = editText.getText().toString();
+            if (!text.replaceAll(" ", "").equals("")) {
+                mNote.setNote(text);
+                noteViewModel.insert(mNote);
+            }
+            Navigation.findNavController(view).navigate(
+                    R.id.action_noteDetailsFragment_to_noteListFragment);
+        });
         return view;
     }
 }
