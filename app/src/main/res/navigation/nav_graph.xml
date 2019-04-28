@@ -36,17 +36,28 @@
                 android:name="noteId" />
         </action>
         <action
-            android:id="@+id/action_noteListFragment_to_signInActivity"
-            app:destination="@id/signInActivity"
+            android:id="@+id/action_noteListFragment_to_loginFragment"
+            app:destination="@+id/loginFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     </fragment>
 
-    <activity
-        android:id="@+id/signInActivity"
-        android:name="com.somethingsimple.simplelist.SignInActivity"
-        android:label="activity_sign_in"
-        tools:layout="@layout/activity_sign_in" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.somethingsimple.simplelist.view.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/noteListFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

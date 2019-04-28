@@ -1,15 +1,19 @@
-package com.somethingsimple.simplelist;
+package com.somethingsimple.simplelist.view;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -24,50 +28,47 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.somethingsimple.simplelist.view.MainActivity;
+import com.somethingsimple.simplelist.R;
 
-public class SignInActivity extends AppCompatActivity
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class LoginFragment extends Fragment
         implements GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener,
         OnCompleteListener<AuthResult> {
 
-    private static final String TAG = "SignInActivity";
+    private static final String TAG = "SignInFragment";
     private static final int RC_SIGN_IN = 9001;
 
     private FirebaseAuth mFirebaseAuth;
-    private SignInButton mSignInButton;
-    private Button anonSignButton;
-    private GoogleApiClient mGoogleApiClient;
 
+    public LoginFragment() {
+        // Required empty public constructor
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
+
         mFirebaseAuth = FirebaseAuth.getInstance();
 
-        mSignInButton = findViewById(R.id.sign_in_google);
+        SignInButton mSignInButton = view.findViewById(R.id.sign_in_google);
         mSignInButton.setOnClickListener(this);
-        anonSignButton = findViewById(R.id.sign_in_anon);
+        Button anonSignButton = view.findViewById(R.id.sign_in_anon);
         anonSignButton.setOnClickListener(this);
-
-        // Configure Google Sign In
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
+        return view;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_in_google:
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(
+                        ((MainActivity) getActivity()).mGoogleApiClient);
                 startActivityForResult(signInIntent, RC_SIGN_IN);
                 break;
             case R.id.sign_in_anon:
@@ -76,7 +77,7 @@ public class SignInActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //Google sign in
         if (requestCode == RC_SIGN_IN) {
@@ -95,31 +96,32 @@ public class SignInActivity extends AppCompatActivity
         Log.d(TAG, "firebaseAuthWithGooogle:" + acct.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mFirebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, this);
+                .addOnCompleteListener(this);
     }
 
     private void signInAnonymously() {
         mFirebaseAuth.signInAnonymously()
-                .addOnCompleteListener(this, this);
+                .addOnCompleteListener(this);
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this,
-                getString(R.string.google_ps_error),
-                Toast.LENGTH_SHORT)
-                .show();
+//        Toast.makeText(this,
+//                getString(R.string.google_ps_error),
+//                Toast.LENGTH_SHORT)
+//                .show();
     }
 
     @Override
     public void onComplete(@NonNull Task<AuthResult> task) {
         if (task.isSuccessful()) {
-            startActivity(new Intent(SignInActivity.this, MainActivity.class));
-            finish();
+            Navigation.findNavController(getView()).navigate(
+                    R.id.action_loginFragment_to_noteListFragment);
         } else {
             Log.w(TAG, "signInWithCredential", task.getException());
-            Toast.makeText(SignInActivity.this, "Authentication failed.",
-                    Toast.LENGTH_SHORT).show();
+//            Toast.makeText(SignInActivity.this, "Authentication failed.",
+//                    Toast.LENGTH_SHORT).show();
         }
     }
+
 }

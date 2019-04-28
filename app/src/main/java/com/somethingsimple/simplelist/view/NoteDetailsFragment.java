@@ -47,7 +47,7 @@ public class NoteDetailsFragment extends Fragment {
             editText.setText(note.getNote());
         });
 
-        fab = view.findViewById(R.id.fab_details_fragment);
+        fab = getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
             String text = editText.getText().toString();
             if (!text.replaceAll(" ", "").equals("")) {

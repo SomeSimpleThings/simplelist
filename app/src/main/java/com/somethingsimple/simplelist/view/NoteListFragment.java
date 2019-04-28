@@ -72,11 +72,9 @@ public class NoteListFragment extends Fragment {
         itemTouchHelper.attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(adapter);
 
-        FloatingActionButton fab = view.findViewById(R.id.fab_list);
-        fab.setOnClickListener(
-                Navigation.createNavigateOnClickListener(
-                        R.id.action_noteListFragment_to_noteDetailsFragment));
-
+        FloatingActionButton fab = getActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(v -> Navigation.findNavController(view)
+                .navigate(R.id.action_noteListFragment_to_noteDetailsFragment));
         return view;
     }
 
