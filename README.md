@@ -5,6 +5,6 @@ It uses:
 Android Room
 View model with Live data
 RecyclerView with ListAdapter
-Firebase auth anonimous and Google
+Firebase auth anonymous and Google
 Retrofit
 BottomAppBar
