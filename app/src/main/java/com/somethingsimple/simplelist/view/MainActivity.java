@@ -86,16 +86,24 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sign_out_menu:
-                mFirebaseAuth.signOut();
-                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-                mFirebaseUser = null;
-                mUsername = ANONYMOUS;
-                mPhotoUrl = null;
-                navController.navigate(R.id.loginFragment);
+                 processLogout();
+                return true;
+            case android.R.id.home:
+                BottomDrawerFragment bottomNavDrawerFragment = new BottomDrawerFragment();
+                bottomNavDrawerFragment.show(getSupportFragmentManager(),"tag");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void processLogout() {
+        mFirebaseAuth.signOut();
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+        mFirebaseUser = null;
+        mUsername = ANONYMOUS;
+        mPhotoUrl = null;
+        navController.navigate(R.id.loginFragment);
     }
 
     @Override

@@ -17,4 +17,6 @@
     <string name="anonymous">Anonymous</string>
     <string name="note_removed_message">Note removed</string>
     <string name="undo">Cancel</string>
+    <string name="bottom_sheet_name">Name</string>
+    <string name="bottom_sheet_email">Email</string>
 </resources>
