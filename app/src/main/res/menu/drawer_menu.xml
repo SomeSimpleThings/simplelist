@@ -5,22 +5,13 @@
             android:id="@+id/sign_out_menu_drawer"
             android:title="@string/sign_out" />
         <item
-            android:id="@+id/bla_menu_drawer"
-            android:title="blabla" />
+            android:id="@+id/settings_menu_drawer"
+            android:title="@string/settings" />
         <item
             android:id="@+id/blabla_menu_drawer"
             android:title="blablabla" />
         <item
             android:id="@+id/blablaa_menu_drawer"
             android:title="blablablaa" />
-        <item
-            android:id="@+id/blablaaa_menu_drawer"
-            android:title="blablablaaa" />
-        <item
-            android:id="@+id/blablaaaa_menu_drawer"
-            android:title="blablablaaaaa" />
-        <item
-            android:id="@+id/blablaaaaa_menu_drawer"
-            android:title="blablablaaaaaa" />
     </group>
 </menu>

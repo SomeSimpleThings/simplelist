@@ -78,19 +78,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.sign_out_menu:
-                 processLogout();
-                return true;
             case android.R.id.home:
                 BottomDrawerFragment bottomNavDrawerFragment = new BottomDrawerFragment();
-                bottomNavDrawerFragment.show(getSupportFragmentManager(),"tag");
+                bottomNavDrawerFragment.show(getSupportFragmentManager(), "tag");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

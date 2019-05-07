@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,10 +31,16 @@ public class BottomDrawerFragment extends BottomSheetDialogFragment {
             switch (menuItem.getItemId()) {
                 case R.id.sign_out_menu_drawer:
                     ((MainActivity) getActivity()).processLogout();
+                    this.dismiss();
                     return true;
+                case R.id.settings_menu_drawer:
+                    Toast.makeText(getContext(), "Not yet implemented",
+                            Toast.LENGTH_SHORT).show();
                 default:
                     return true;
             }
         });
+        ImageView close_image = getView().findViewById(R.id.close_imageview);
+        close_image.setOnClickListener(v -> BottomDrawerFragment.this.dismiss());
     }
 }
