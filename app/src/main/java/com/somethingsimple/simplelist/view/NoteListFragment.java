@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.somethingsimple.simplelist.R;
 import com.somethingsimple.simplelist.db.Note;
 import com.somethingsimple.simplelist.model.NotesViewModel;
@@ -68,6 +69,10 @@ public class NoteListFragment extends Fragment {
                         NotesListAdapter.NotesViewHolder holder = (NotesListAdapter.NotesViewHolder) viewHolder;
                         if (holder.getNote() != null) {
                             notesViewModel.delete(holder.getNote());
+                            Snackbar.make(view, R.string.note_removed_message, Snackbar.LENGTH_LONG)
+                                    .setAction(R.string.undo, v ->
+                                            notesViewModel.insert(holder.getNote()))
+                                    .show();
                         }
                     }
                 });
