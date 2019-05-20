@@ -33,8 +33,6 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     public GoogleApiClient mGoogleApiClient;
-    private String mUsername;
-    private String mPhotoUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,20 +40,12 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         BottomAppBar bar = findViewById(R.id.bar);
         setSupportActionBar(bar);
-
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
-        mUsername = ANONYMOUS;
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
-
         if (mFirebaseUser == null) {
             navController.navigate(R.id.action_noteListFragment_to_loginFragment);
-        } else {
-            mUsername = mFirebaseUser.getDisplayName();
-            if (mFirebaseUser.getPhotoUrl() != null) {
-                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
-            }
         }
 
 // Configure Google Sign In
@@ -85,7 +75,9 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                mFirebaseUser = mFirebaseAuth.getCurrentUser();
                 BottomDrawerFragment bottomNavDrawerFragment = new BottomDrawerFragment();
+                bottomNavDrawerFragment.setArguments(getNavDrawerBundle());
                 bottomNavDrawerFragment.show(getSupportFragmentManager(), "tag");
                 return true;
             default:
@@ -93,12 +85,16 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private Bundle getNavDrawerBundle() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(getString(R.string.user_bundle_key), mFirebaseUser);
+        return bundle;
+    }
+
     public void processLogout() {
         mFirebaseAuth.signOut();
         Auth.GoogleSignInApi.signOut(mGoogleApiClient);
         mFirebaseUser = null;
-        mUsername = ANONYMOUS;
-        mPhotoUrl = null;
         navController.navigate(R.id.loginFragment);
     }
 
