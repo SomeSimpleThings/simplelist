@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class NotesListAdapter extends  ListAdapter<Note, NotesListAdapter.NotesViewHolder> {
+public class NotesListAdapter extends ListAdapter<Note, NotesListAdapter.NotesViewHolder> {
 
     private final NoteClickListener mOnlickListener;
 
@@ -34,19 +34,24 @@ public class NotesListAdapter extends  ListAdapter<Note, NotesListAdapter.NotesV
     class NotesViewHolder extends RecyclerView.ViewHolder {
 
         private final CardView noteItemCard;
-        private final TextView noteItemView;
+        private final TextView noteTitle;
+        private final TextView noteText;
         private Note mNote;
 
         NotesViewHolder(@NonNull View itemView) {
             super(itemView);
             noteItemCard = itemView.findViewById(R.id.card_view);
-            noteItemView = itemView.findViewById(R.id.note_text);
+            noteTitle = itemView.findViewById(R.id.note_title);
+            noteText = itemView.findViewById(R.id.note_text);
         }
 
         private void bind(Note note) {
             mNote = note;
-            noteItemView.setText(note.toString());
-            noteItemView.setOnClickListener(v ->
+            noteTitle.setText(String.format("%d %s", note.getNoteId(), note.getNoteTitle()));
+            noteText.setText(note.getNoteText());
+            noteTitle.setOnClickListener(v ->
+                    mOnlickListener.onNoteClick(mNote));
+            noteText.setOnClickListener(v ->
                     mOnlickListener.onNoteClick(mNote));
         }
 

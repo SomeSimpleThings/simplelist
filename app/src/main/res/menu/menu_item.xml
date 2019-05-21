@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_item_something"
+        android:title="@string/menu_item_smth"
+        app:showAsAction="always"
+        android:orderInCategory="1"
+        android:icon="@drawable/ic_favorite_border_black_24dp"
+        />
+</menu>

@@ -32,29 +32,36 @@ public class Note implements Parcelable {
     @ColumnInfo
     @SerializedName("title")
     @Expose
-    private String note;
+    private String noteTitle;
+
+    @ColumnInfo
+    @SerializedName("text")
+    @Expose
+    private String noteText;
 
     @ColumnInfo
     @SerializedName("completed")
     @Expose
     private boolean checked;
 
-    public Note(String note) {
-        this.note = note;
+    public Note(String noteTitle) {
+        this.noteTitle = noteTitle;
         //// TODO: 27/03/2019
         this.checked = false;
     }
 
     Note(Parcel in) {
         noteId = in.readLong();
-        note = in.readString();
+        noteTitle = in.readString();
+        noteText = in.readString();
         checked = in.readByte() != 0;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(noteId);
-        dest.writeString(note);
+        dest.writeString(noteTitle);
+        dest.writeString(noteText);
         dest.writeByte((byte) (checked ? 1 : 0));
     }
 
@@ -83,12 +90,20 @@ public class Note implements Parcelable {
         this.noteId = noteId;
     }
 
-    public String getNote() {
-        return note;
+    public String getNoteTitle() {
+        return noteTitle;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setNoteTitle(String noteTitle) {
+        this.noteTitle = noteTitle;
+    }
+
+    public String getNoteText() {
+        return noteText;
+    }
+
+    public void setNoteText(String noteText) {
+        this.noteText = noteText;
     }
 
     public boolean isChecked() {
@@ -102,7 +117,7 @@ public class Note implements Parcelable {
     @NonNull
     @Override
     public String toString() {
-        return noteId + " " + note ;
+        return noteId + " " + noteTitle;
     }
 
     @Override
@@ -112,11 +127,11 @@ public class Note implements Parcelable {
         Note note1 = (Note) o;
         return noteId == note1.noteId &&
                 checked == note1.checked &&
-                Objects.equals(note, note1.note);
+                Objects.equals(noteTitle, note1.noteTitle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(noteId, note, checked);
+        return Objects.hash(noteId, noteTitle, noteText, checked);
     }
 }

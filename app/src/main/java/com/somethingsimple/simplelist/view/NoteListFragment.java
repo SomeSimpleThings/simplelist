@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
@@ -20,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.somethingsimple.simplelist.R;
@@ -47,8 +49,9 @@ public class NoteListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+
         View view = inflater.inflate(R.layout.fragment_note_list, container, false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         NotesListAdapter adapter = new NotesListAdapter(this::onNoteClick);
@@ -73,6 +76,14 @@ public class NoteListFragment extends Fragment {
                                     .setAction(R.string.undo, v ->
                                             notesViewModel.insert(holder.getNote()))
                                     .show();
+//                            CoordinatorLayout.LayoutParams params =
+//                                    ((CoordinatorLayout.LayoutParams) snackbar.getView().getLayoutParams());
+//                            params.setMargins(
+//                                    params.leftMargin,
+//                                    params.topMargin,
+//                                    params.rightMargin,
+//                                    params.bottomMargin + 125
+//                            );
                         }
                     }
                 });
@@ -80,9 +91,10 @@ public class NoteListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
-        fab.show();
+        fab.setImageResource(R.drawable.ic_add_black_24dp);
         fab.setOnClickListener(v -> Navigation.findNavController(view)
                 .navigate(R.id.action_noteListFragment_to_noteDetailsFragment));
+        fab.show();
         return view;
     }
 
@@ -96,6 +108,10 @@ public class NoteListFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_list, menu);
+        BottomAppBar bar = getActivity().findViewById(R.id.bar);
+        bar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
+        bar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
+        bar.setHideOnScroll(true);
     }
 
     @Override

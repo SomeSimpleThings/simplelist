@@ -34,7 +34,7 @@ public class BottomDrawerFragment extends BottomSheetDialogFragment {
         ImageView close_image = getView().findViewById(R.id.close_imageview);
         close_image.setOnClickListener(v -> BottomDrawerFragment.this.dismiss());
 
-        NavigationView view = getView().findViewById(R.id.navigation_view);
+        NavigationView drawerNavigation = getView().findViewById(R.id.navigation_view);
 
         Bundle bundle = getArguments();
         FirebaseUser fbuser = bundle.getParcelable(getString(R.string.user_bundle_key));
@@ -49,11 +49,11 @@ public class BottomDrawerFragment extends BottomSheetDialogFragment {
             TextView userEmail = getView().findViewById(R.id.textEmail);
             userEmail.setText(fbuser.getEmail());
         } else {
-            view.getMenu().findItem(R.id.sign_out_menu_drawer)
+            drawerNavigation.getMenu().findItem(R.id.sign_out_menu_drawer)
                     .setTitle(getString(R.string.sign_in));
         }
 
-        view.setNavigationItemSelectedListener(menuItem -> {
+        drawerNavigation.setNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.sign_out_menu_drawer:
                     ((MainActivity) getActivity()).processLogout();

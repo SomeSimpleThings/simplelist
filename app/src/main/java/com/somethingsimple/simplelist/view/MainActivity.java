@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                mFirebaseUser = mFirebaseAuth.getCurrentUser();
                 BottomDrawerFragment bottomNavDrawerFragment = new BottomDrawerFragment();
                 bottomNavDrawerFragment.setArguments(getNavDrawerBundle());
                 bottomNavDrawerFragment.show(getSupportFragmentManager(), "tag");
@@ -86,6 +85,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private Bundle getNavDrawerBundle() {
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
         Bundle bundle = new Bundle();
         bundle.putParcelable(getString(R.string.user_bundle_key), mFirebaseUser);
         return bundle;
