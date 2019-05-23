@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Locale;
+
 public class NotesListAdapter extends ListAdapter<Note, NotesListAdapter.NotesViewHolder> {
 
     private final NoteClickListener mOnlickListener;
@@ -47,7 +49,8 @@ public class NotesListAdapter extends ListAdapter<Note, NotesListAdapter.NotesVi
 
         private void bind(Note note) {
             mNote = note;
-            noteTitle.setText(String.format("%d %s", note.getNoteId(), note.getNoteTitle()));
+            noteTitle.setText(String.format(
+                    Locale.getDefault(), "%d %s", note.getNoteId(), note.getNoteTitle()));
             noteText.setText(note.getNoteText());
             noteTitle.setOnClickListener(v ->
                     mOnlickListener.onNoteClick(mNote));
