@@ -9,4 +9,11 @@
         android:icon="@drawable/ic_delete_forever_black_24dp"
         />
 
+    <item
+        android:id="@+id/menu_sort"
+        android:title="@string/menu_sort"
+        app:showAsAction="always"
+        android:orderInCategory="2"
+        android:icon="@drawable/ic_sort_black_24dp"
+        />
 </menu>

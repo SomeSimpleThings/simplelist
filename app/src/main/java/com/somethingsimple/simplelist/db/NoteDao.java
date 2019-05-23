@@ -16,6 +16,9 @@ public interface NoteDao {
     @Query("SELECT * FROM Note")
     LiveData<List<Note>> getNotes();
 
+    @Query("SELECT * FROM Note ORDER by noteId DESC")
+    LiveData<List<Note>> getNotesOrdered();
+
     @Query("SELECT * from Note WHERE noteId = :id")
     LiveData<Note> getNoteById(long id);
 

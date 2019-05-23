@@ -14,19 +14,24 @@ import androidx.lifecycle.MediatorLiveData;
 public class NotesViewModel extends AndroidViewModel {
 
     private final NotesRepository notesRepo;
-    private final LiveData<List<Note>> liveData;
+    private LiveData<List<Note>> liveData;
 
     private final MediatorLiveData<List<Note>> mediatorLiveData;
 
     public NotesViewModel(@NonNull Application application) {
         super(application);
         notesRepo = new NotesRepository();
-        liveData = notesRepo.getAllNotes();
         mediatorLiveData = new MediatorLiveData<>();
-        mediatorLiveData.addSource(liveData, notes -> mediatorLiveData.setValue(notes));
     }
 
-    public MediatorLiveData<List<Note>> getNotes() {
+    public MediatorLiveData<List<Note>> getNotes(boolean ordered) {
+        mediatorLiveData.removeSource(liveData);
+        if (ordered) {
+            liveData = notesRepo.getAllNotesReversed();
+        } else {
+            liveData = notesRepo.getAllNotes();
+        }
+        mediatorLiveData.addSource(liveData, mediatorLiveData::setValue);
         return mediatorLiveData;
     }
 

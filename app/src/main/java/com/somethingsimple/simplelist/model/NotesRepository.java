@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import androidx.lifecycle.LiveData;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,18 +25,18 @@ class NotesRepository {
     NotesRepository() {
         app = NoteApplication.getInstanced();
         NotesDatabase dbNotes = app.getNotesDatabase();
-        networkService = app.getNetworkService();
-
         mNoteDao = dbNotes.noteDao();
         executorService = Executors.newSingleThreadExecutor();
+        networkService = app.getNetworkService();
+        refreshFromNetwork();
     }
 
     LiveData<List<Note>> getAllNotes() {
-        if (app.isFirstLaunch()) {
-            refreshFromNetwork();
-            app.setFirstLaunch(false);
-        }
         return mNoteDao.getNotes();
+    }
+
+    LiveData<List<Note>> getAllNotesReversed() {
+        return mNoteDao.getNotesOrdered();
     }
 
     private void refreshFromNetwork() {

@@ -35,6 +35,8 @@ import com.somethingsimple.simplelist.model.NotesViewModel;
 public class NoteListFragment extends Fragment {
 
     private NotesViewModel notesViewModel;
+    private NotesListAdapter adapter;
+    private boolean ordered;
 
     public NoteListFragment() {
         // Required empty public constructor
@@ -54,9 +56,9 @@ public class NoteListFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        NotesListAdapter adapter = new NotesListAdapter(this::onNoteClick);
+        adapter = new NotesListAdapter(this::onNoteClick);
         notesViewModel = ViewModelProviders.of(this).get(NotesViewModel.class);
-        notesViewModel.getNotes().observe(this, adapter::submitList);
+        notesViewModel.getNotes(ordered).observe(this, adapter::submitList);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
                 new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -120,6 +122,9 @@ public class NoteListFragment extends Fragment {
             case R.id.menu_delete_all:
                 notesViewModel.deleteAll();
                 return true;
+            case R.id.menu_sort:
+                ordered = !ordered;
+                notesViewModel.getNotes(ordered).observe(this, adapter::submitList);
             default:
                 return super.onOptionsItemSelected(item);
         }
