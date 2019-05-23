@@ -10,3 +10,6 @@ Simple project to learn about Android architecture components and some other
 * [Firebase Authentication](https://firebase.google.com/docs/auth/) [Anonymous](https://firebase.google.com/docs/auth/android/anonymous-auth) and [Google Sign-In](https://firebase.google.com/docs/auth/android/google-signin)
 * [Retrofit](https://square.github.io/retrofit/) and [My JSON Server](https://my-json-server.typicode.com/) 
 * [BottomAppBar](https://material.io/develop/android/components/bottom-app-bar/)
+* [Glide](https://github.com/bumptech/glide)
+
+
