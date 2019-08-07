@@ -5,11 +5,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,19 +24,21 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.somethingsimple.simplelist.R;
 import com.somethingsimple.simplelist.db.Note;
-import com.somethingsimple.simplelist.model.NoteViewModel;
+import com.somethingsimple.simplelist.model.NotesViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class NoteDetailsFragment extends Fragment {
 
-    private NoteViewModel noteViewModel;
+    private NotesViewModel noteViewModel;
 
     private EditText editNoteTitle;
     private EditText editNoteText;
     private FloatingActionButton fab;
     private Note mNote;
+    private NoteListAdapter adapter;
+
 
     public NoteDetailsFragment() {
         // Required empty public constructor
@@ -52,37 +55,41 @@ public class NoteDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_note_details,
                 container, false);
-        long id = getArguments().getLong("noteId");
-        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
-        noteViewModel.init(id);
-        noteViewModel.getNote().observe(this, note -> {
-            mNote = note;
-            editNoteTitle = view.findViewById(R.id.edit_note_title);
-            editNoteTitle.setText(note.getNoteTitle());
-            editNoteText = view.findViewById(R.id.edit_note_text);
-            editNoteText.setText(note.getNoteText());
-        });
 
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-        toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).navigate(
-                R.id.action_noteDetailsFragment_to_noteListFragment));
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerview_note);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        long id = getArguments().getLong("folderId");
+        adapter = new NoteListAdapter(note -> {
+
+        });
+        noteViewModel = ViewModelProviders.of(this).get(NotesViewModel.class);
+        noteViewModel.init(-1,id);
+        noteViewModel.getNotes(false, id).observe(this, adapter::submitList);
+
+        setupToolbar(view);
 
         fab = getActivity().findViewById(R.id.fab);
         fab.setImageResource(R.drawable.ic_done_black_24dp);
         fab.setOnClickListener(v -> {
-            String text = editNoteTitle.getText().toString() + editNoteText.getText().toString();
-            editNoteText.onEditorAction(EditorInfo.IME_ACTION_DONE);
-            editNoteTitle.onEditorAction(EditorInfo.IME_ACTION_DONE);
-            if (!text.replaceAll(" ", "").equals("")) {
-                mNote.setNoteText(editNoteText.getText().toString());
-                mNote.setNoteTitle(editNoteTitle.getText().toString());
-                noteViewModel.insert(mNote);
-            }
+//            String text = editNoteTitle.getText().toString() + editNoteText.getText().toString();
+//            editNoteText.onEditorAction(EditorInfo.IME_ACTION_DONE);
+//            editNoteTitle.onEditorAction(EditorInfo.IME_ACTION_DONE);
+//            if (!text.replaceAll(" ", "").equals("")) {
+//                mNote.setNoteText(editNoteText.getText().toString());
+//                mNote.setNoteTitle(editNoteTitle.getText().toString());
+//                noteViewModel.insert(mNote);
+//            }
             Navigation.findNavController(view).navigate(
                     R.id.action_noteDetailsFragment_to_noteListFragment);
         });
         return view;
+    }
+
+    private void setupToolbar(View view) {
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).navigate(
+                R.id.action_noteDetailsFragment_to_noteListFragment));
     }
 
     @Override

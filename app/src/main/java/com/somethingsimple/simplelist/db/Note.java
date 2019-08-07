@@ -12,10 +12,21 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity
+import static androidx.room.ForeignKey.CASCADE;
+
+@Entity(foreignKeys = @ForeignKey(
+        entity = Folder.class,
+        parentColumns = "id",
+        childColumns = "folderId",
+        onDelete = CASCADE,
+        onUpdate = CASCADE),
+        indices = @Index("folderId"))
+
 public class Note implements Parcelable {
 
     @SerializedName("userId")
@@ -30,6 +41,11 @@ public class Note implements Parcelable {
     private long noteId;
 
     @ColumnInfo
+    @SerializedName("folder_id")
+    @Expose
+    private long folderId;
+
+    @ColumnInfo
     @SerializedName("title")
     @Expose
     private String noteTitle;
@@ -40,12 +56,13 @@ public class Note implements Parcelable {
     private String noteText;
 
     @ColumnInfo
-    @SerializedName("completed")
+    @SerializedName("checked")
     @Expose
     private boolean checked;
 
-    public Note(String noteTitle) {
+    public Note(String noteTitle, long folderId) {
         this.noteTitle = noteTitle;
+        this.folderId = folderId;
         //// TODO: 27/03/2019
         this.checked = false;
     }
@@ -90,6 +107,14 @@ public class Note implements Parcelable {
         this.noteId = noteId;
     }
 
+    public long getFolderId() {
+        return folderId;
+    }
+
+    public void setFolderId(long folderId) {
+        this.folderId = folderId;
+    }
+
     public String getNoteTitle() {
         return noteTitle;
     }
@@ -124,14 +149,17 @@ public class Note implements Parcelable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Note note1 = (Note) o;
-        return noteId == note1.noteId &&
-                checked == note1.checked &&
-                Objects.equals(noteTitle, note1.noteTitle);
+        Note note = (Note) o;
+        return noteId == note.noteId &&
+                folderId == note.folderId &&
+                checked == note.checked &&
+                Objects.equals(userId, note.userId) &&
+                Objects.equals(noteTitle, note.noteTitle) &&
+                Objects.equals(noteText, note.noteText);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(noteId, noteTitle, noteText, checked);
+        return Objects.hash(userId, noteId, folderId, noteTitle, noteText, checked);
     }
 }

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Locale;
 
-public class NotesListAdapter extends ListAdapter<Note, NotesListAdapter.NotesViewHolder> {
+public class NoteListAdapter extends ListAdapter<Note, NoteListAdapter.NoteViewHolder> {
 
     private final NoteClickListener mOnlickListener;
 
@@ -28,56 +28,52 @@ public class NotesListAdapter extends ListAdapter<Note, NotesListAdapter.NotesVi
                 }
 
                 @Override
-                public boolean areContentsTheSame(@NonNull Note oldItem, @NonNull Note newItem) {
+                    public boolean areContentsTheSame(@NonNull Note oldItem, @NonNull Note newItem) {
                     return oldItem.equals(newItem);
                 }
             };
 
-    class NotesViewHolder extends RecyclerView.ViewHolder {
+    class NoteViewHolder extends RecyclerView.ViewHolder {
 
-        private final CardView noteItemCard;
-        private final TextView noteTitle;
+        private final CardView noteCard;
         private final TextView noteText;
-        private Note mNote;
+        private Note note;
 
-        NotesViewHolder(@NonNull View itemView) {
+        NoteViewHolder(@NonNull View itemView) {
             super(itemView);
-            noteItemCard = itemView.findViewById(R.id.card_view);
-            noteTitle = itemView.findViewById(R.id.note_title);
-            noteText = itemView.findViewById(R.id.note_text);
+            noteCard = itemView.findViewById(R.id.card_view);
+            noteText = itemView.findViewById(R.id.note_text_edit);
         }
 
         private void bind(Note note) {
-            mNote = note;
-            noteTitle.setText(String.format(
-                    Locale.getDefault(), "%d %s", note.getNoteId(), note.getNoteTitle()));
+            this.note = note;
+            noteText.setText(String.format(
+                    Locale.getDefault(), "%d %s", note.getNoteId(), note.getNoteText()));
             noteText.setText(note.getNoteText());
-            noteTitle.setOnClickListener(v ->
-                    mOnlickListener.onNoteClick(mNote));
             noteText.setOnClickListener(v ->
-                    mOnlickListener.onNoteClick(mNote));
+                    mOnlickListener.onNoteClick(this.note));
         }
 
         public Note getNote() {
-            return mNote;
+            return note;
         }
     }
 
-    public NotesListAdapter(NoteClickListener clickListener) {
+    public NoteListAdapter(NoteClickListener clickListener) {
         super(DIFF_CALLBACK);
         mOnlickListener = clickListener;
     }
 
     @NonNull
     @Override
-    public NotesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.recyclerview_item, parent, false);
-        return new NotesViewHolder(itemView);
+                inflate(R.layout.note_checkable_recyclerview_item, parent, false);
+        return new NoteViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NotesViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         holder.bind(getItem(position));
     }
 }

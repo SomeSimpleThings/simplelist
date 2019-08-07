@@ -22,11 +22,11 @@
     </fragment>
     <fragment
         android:id="@+id/noteListFragment"
-        android:name="com.somethingsimple.simplelist.view.NoteListFragment"
+        android:name="com.somethingsimple.simplelist.view.FolderListFragment"
         android:label="fragment_note_list"
-        tools:layout="@layout/fragment_note_list">
+        tools:layout="@layout/fragment_folder_list">
         <action
-            android:id="@+id/action_noteListFragment_to_noteDetailsFragment"
+            android:id="@+id/action_folderListFragment_to_noteDetailsFragment"
             app:destination="@id/noteDetailsFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"

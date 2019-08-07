@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
@@ -25,20 +24,19 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.somethingsimple.simplelist.R;
-import com.somethingsimple.simplelist.db.Note;
-import com.somethingsimple.simplelist.model.NotesViewModel;
-
+import com.somethingsimple.simplelist.db.Folder;
+import com.somethingsimple.simplelist.model.FolderViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NoteListFragment extends Fragment {
+public class FolderListFragment extends Fragment {
 
-    private NotesViewModel notesViewModel;
-    private NotesListAdapter adapter;
+    private FolderViewModel folderViewModel;
+    private FolderListAdapter adapter;
     private boolean ordered;
 
-    public NoteListFragment() {
+    public FolderListFragment() {
         // Required empty public constructor
     }
 
@@ -52,13 +50,13 @@ public class NoteListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_note_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_folder_list, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NotesListAdapter(this::onNoteClick);
-        notesViewModel = ViewModelProviders.of(this).get(NotesViewModel.class);
-        notesViewModel.getNotes(ordered).observe(this, adapter::submitList);
+        adapter = new FolderListAdapter(folder -> onFolderClick(folder));
+        folderViewModel = ViewModelProviders.of(this).get(FolderViewModel.class);
+        folderViewModel.getFolders(ordered).observe(this, adapter::submitList);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
                 new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -71,12 +69,12 @@ public class NoteListFragment extends Fragment {
 
                     @Override
                     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                        NotesListAdapter.NotesViewHolder holder = (NotesListAdapter.NotesViewHolder) viewHolder;
-                        if (holder.getNote() != null) {
-                            notesViewModel.delete(holder.getNote());
-                            Snackbar.make(view, R.string.note_removed_message, Snackbar.LENGTH_LONG)
+                        FolderListAdapter.FolderViewHolder holder = (FolderListAdapter.FolderViewHolder) viewHolder;
+                        if (holder.getfolder() != null) {
+                            folderViewModel.delete(holder.getfolder());
+                            Snackbar.make(view, R.string.folder_removed_message, Snackbar.LENGTH_LONG)
                                     .setAction(R.string.undo, v ->
-                                            notesViewModel.insert(holder.getNote()))
+                                            folderViewModel.insert(holder.getfolder()))
                                     .show();
 //                            CoordinatorLayout.LayoutParams params =
 //                                    ((CoordinatorLayout.LayoutParams) snackbar.getView().getLayoutParams());
@@ -95,7 +93,7 @@ public class NoteListFragment extends Fragment {
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setImageResource(R.drawable.ic_add_black_24dp);
         fab.setOnClickListener(v -> Navigation.findNavController(view)
-                .navigate(R.id.action_noteListFragment_to_noteDetailsFragment));
+                .navigate(R.id.action_folderListFragment_to_noteDetailsFragment));
         fab.show();
         return view;
     }
@@ -120,20 +118,20 @@ public class NoteListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_delete_all:
-                notesViewModel.deleteAll();
+                folderViewModel.deleteAll();
                 return true;
             case R.id.menu_sort:
                 ordered = !ordered;
-                notesViewModel.getNotes(ordered).observe(this, adapter::submitList);
+                folderViewModel.getFolders(ordered).observe(this, adapter::submitList);
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void onNoteClick(Note note) {
+    private void onFolderClick(Folder folder) {
         Bundle bundle = new Bundle();
-        bundle.putLong("noteId", note.getNoteId());
+        bundle.putLong("folderId", folder.getId());
         Navigation.findNavController(getView()).navigate(
-                R.id.action_noteListFragment_to_noteDetailsFragment, bundle);
+                R.id.action_folderListFragment_to_noteDetailsFragment, bundle);
     }
 }

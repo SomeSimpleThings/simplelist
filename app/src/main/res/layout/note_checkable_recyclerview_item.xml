@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_view"
+    android:id="@+id/note_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -12,28 +12,30 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_background">
 
-        <TextView
-            android:id="@+id/folder_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_title"
-            app:layout_constraintBottom_toTopOf="@+id/folder_text"
-            app:layout_constraintEnd_toEndOf="parent"
+        <CheckBox
+            android:id="@+id/note_checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/note_text_edit" />
 
-        <TextView
-            android:id="@+id/folder_text"
+        <EditText
+            android:id="@+id/note_text_edit"
             style="@style/folder_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:ellipsize="end"
             android:hint="@string/hint_note"
             android:maxLines="3"
-            android:ellipsize="end"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/folder_title" />
+            app:layout_constraintStart_toEndOf="@id/note_checkBox"
+            app:layout_constraintTop_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
