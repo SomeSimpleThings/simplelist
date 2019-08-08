@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d0aee2c6e1cdaac86c73ccc26f09cdf0",
+    "identityHash": "d00e333a4f278991ac38958f1eefc9ec",
     "entities": [
       {
         "tableName": "Note",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`noteId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `folderId` INTEGER NOT NULL, `noteTitle` TEXT, `noteText` TEXT, `checked` INTEGER NOT NULL, FOREIGN KEY(`folderId`) REFERENCES `Folder`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`noteId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `folderId` INTEGER NOT NULL, `noteTitle` TEXT, `noteText` TEXT, `checkable` INTEGER NOT NULL, `checked` INTEGER NOT NULL, FOREIGN KEY(`folderId`) REFERENCES `Folder`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "noteId",
@@ -31,6 +31,12 @@
             "columnName": "noteText",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "checkable",
+            "columnName": "checkable",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "checked",
@@ -99,7 +105,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd0aee2c6e1cdaac86c73ccc26f09cdf0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd00e333a4f278991ac38958f1eefc9ec')"
     ]
   }
 }

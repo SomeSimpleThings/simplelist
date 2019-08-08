@@ -1,6 +1,6 @@
 package com.somethingsimple.simplelist.network;
 
-import com.somethingsimple.simplelist.db.Note;
+import com.somethingsimple.simplelist.db.entity.Note;
 
 import java.util.List;
 

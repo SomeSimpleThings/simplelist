@@ -1,4 +1,4 @@
-package com.somethingsimple.simplelist.view;
+package com.somethingsimple.simplelist.view.folder;
 
 
 import android.os.Bundle;
@@ -24,7 +24,7 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.somethingsimple.simplelist.R;
-import com.somethingsimple.simplelist.db.Folder;
+import com.somethingsimple.simplelist.db.entity.Folder;
 import com.somethingsimple.simplelist.model.FolderViewModel;
 
 /**
@@ -54,7 +54,7 @@ public class FolderListFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new FolderListAdapter(folder -> onFolderClick(folder));
+        adapter = new FolderListAdapter(folder -> onFolderClick(folder.getId()));
         folderViewModel = ViewModelProviders.of(this).get(FolderViewModel.class);
         folderViewModel.getFolders(ordered).observe(this, adapter::submitList);
 
@@ -90,12 +90,17 @@ public class FolderListFragment extends Fragment {
         itemTouchHelper.attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(adapter);
 
+        setupFab();
+        return view;
+    }
+
+    private void setupFab() {
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setImageResource(R.drawable.ic_add_black_24dp);
-        fab.setOnClickListener(v -> Navigation.findNavController(view)
-                .navigate(R.id.action_folderListFragment_to_noteDetailsFragment));
+        fab.setOnClickListener(v -> {
+            onFolderClick(folderViewModel.insert("new note"));
+        });
         fab.show();
-        return view;
     }
 
     @Override
@@ -128,9 +133,9 @@ public class FolderListFragment extends Fragment {
         }
     }
 
-    private void onFolderClick(Folder folder) {
+    private void onFolderClick(long folderId) {
         Bundle bundle = new Bundle();
-        bundle.putLong("folderId", folder.getId());
+        bundle.putLong("folderId", folderId);
         Navigation.findNavController(getView()).navigate(
                 R.id.action_folderListFragment_to_noteDetailsFragment, bundle);
     }

@@ -3,10 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_item_something"
+        android:id="@+id/menu_item_add_check"
         android:title="@string/menu_item_smth"
         app:showAsAction="always"
         android:orderInCategory="1"
-        android:icon="@drawable/ic_favorite_border_black_24dp"
+        android:icon="@drawable/ic_check_box_black_24dp"
+        />
+    <item
+        android:id="@+id/menu_item_add_text"
+        android:title="@string/menu_item_smth"
+        app:showAsAction="always"
+        android:orderInCategory="2"
+        android:icon="@drawable/ic_text_fields_black_24dp"
         />
 </menu>

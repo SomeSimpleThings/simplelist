@@ -3,6 +3,10 @@ package com.somethingsimple.simplelist.db;
 import android.content.Context;
 
 import com.somethingsimple.simplelist.R;
+import com.somethingsimple.simplelist.db.dao.FolderDao;
+import com.somethingsimple.simplelist.db.dao.NoteDao;
+import com.somethingsimple.simplelist.db.entity.Folder;
+import com.somethingsimple.simplelist.db.entity.Note;
 
 import androidx.room.Database;
 import androidx.room.Room;

@@ -1,4 +1,4 @@
-package com.somethingsimple.simplelist.db;
+package com.somethingsimple.simplelist.db.entity;
 
 
 import androidx.room.ColumnInfo;

@@ -1,20 +1,15 @@
 package com.somethingsimple.simplelist.model;
 
 import com.somethingsimple.simplelist.NoteApplication;
-import com.somethingsimple.simplelist.db.Note;
-import com.somethingsimple.simplelist.db.NoteDao;
+import com.somethingsimple.simplelist.db.entity.Note;
+import com.somethingsimple.simplelist.db.dao.NoteDao;
 import com.somethingsimple.simplelist.db.NotesDatabase;
-import com.somethingsimple.simplelist.network.NetworkService;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import androidx.lifecycle.LiveData;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 class NotesRepository {
     private final NoteDao mNoteDao;

@@ -1,4 +1,4 @@
-package com.somethingsimple.simplelist.view;
+package com.somethingsimple.simplelist.view.folder;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.somethingsimple.simplelist.R;
-import com.somethingsimple.simplelist.db.Folder;
+import com.somethingsimple.simplelist.db.entity.Folder;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;

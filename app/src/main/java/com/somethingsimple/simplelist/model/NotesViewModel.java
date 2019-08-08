@@ -2,7 +2,7 @@ package com.somethingsimple.simplelist.model;
 
 import android.app.Application;
 
-import com.somethingsimple.simplelist.db.Note;
+import com.somethingsimple.simplelist.db.entity.Note;
 
 import java.util.List;
 
@@ -53,22 +53,22 @@ public class NotesViewModel extends AndroidViewModel {
         notesRepo.deleteAll();
     }
 
-    public void init(long id, long folderId) {
-        if (this.note != null) {
-            // ViewModel is created on a per-Fragment basis, so the userId
-            // doesn't change.
-            return;
-        }
-        if (id == -1) note = new MutableLiveData<>(new Note("", folderId));
-        else note = notesRepo.getNote(id);
-    }
+//    public void init(long id, long folderId) {
+//        if (this.note != null) {
+//            // ViewModel is created on a per-Fragment basis, so the userId
+//            // doesn't change.
+//            return;
+//        }
+//        if (id == -1) note = new MutableLiveData<>(new Note("", folderId, false));
+//        else note = notesRepo.getNote(id);
+//    }
 
     public LiveData<Note> getNote(long folderId) {
         return note;
     }
 
     public void insert(String note, long folderId) {
-        notesRepo.insert(new Note(note, folderId));
+        notesRepo.insert(new Note(note, folderId, false));
     }
 
     @Override

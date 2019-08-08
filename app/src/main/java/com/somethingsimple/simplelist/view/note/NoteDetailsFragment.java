@@ -1,4 +1,4 @@
-package com.somethingsimple.simplelist.view;
+package com.somethingsimple.simplelist.view.note;
 
 
 import android.os.Bundle;
@@ -15,15 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.somethingsimple.simplelist.R;
-import com.somethingsimple.simplelist.db.Note;
+import com.somethingsimple.simplelist.db.entity.Note;
+import com.somethingsimple.simplelist.model.FolderViewModel;
 import com.somethingsimple.simplelist.model.NotesViewModel;
 
 /**
@@ -32,12 +33,13 @@ import com.somethingsimple.simplelist.model.NotesViewModel;
 public class NoteDetailsFragment extends Fragment {
 
     private NotesViewModel noteViewModel;
+    private FolderViewModel folderViewModel;
 
-    private EditText editNoteTitle;
-    private EditText editNoteText;
     private FloatingActionButton fab;
     private Note mNote;
+    private long mFolderid;
     private NoteListAdapter adapter;
+    RecyclerView recyclerView;
 
 
     public NoteDetailsFragment() {
@@ -56,33 +58,37 @@ public class NoteDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_note_details,
                 container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerview_note);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        long id = getArguments().getLong("folderId");
+
+        mFolderid = getArguments().getLong("folderId");
         adapter = new NoteListAdapter(note -> {
 
+        }, (actionId, note) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                noteViewModel.update(note);
+                return true;
+            }
+            return false;
         });
         noteViewModel = ViewModelProviders.of(this).get(NotesViewModel.class);
-        noteViewModel.init(-1,id);
-        noteViewModel.getNotes(false, id).observe(this, adapter::submitList);
+        folderViewModel = ViewModelProviders.of(this).get(FolderViewModel.class);
+        noteViewModel.getNotes(false, mFolderid).observe(this, adapter::submitList);
 
         setupToolbar(view);
+        setupFab(view);
+        recyclerView = view.findViewById(R.id.recyclerview_note);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
 
+        return view;
+    }
+
+    private void setupFab(View view) {
         fab = getActivity().findViewById(R.id.fab);
         fab.setImageResource(R.drawable.ic_done_black_24dp);
         fab.setOnClickListener(v -> {
-//            String text = editNoteTitle.getText().toString() + editNoteText.getText().toString();
-//            editNoteText.onEditorAction(EditorInfo.IME_ACTION_DONE);
-//            editNoteTitle.onEditorAction(EditorInfo.IME_ACTION_DONE);
-//            if (!text.replaceAll(" ", "").equals("")) {
-//                mNote.setNoteText(editNoteText.getText().toString());
-//                mNote.setNoteTitle(editNoteTitle.getText().toString());
-//                noteViewModel.insert(mNote);
-//            }
             Navigation.findNavController(view).navigate(
                     R.id.action_noteDetailsFragment_to_noteListFragment);
         });
-        return view;
     }
 
     private void setupToolbar(View view) {
@@ -106,5 +112,19 @@ public class NoteDetailsFragment extends Fragment {
         bar.setNavigationIcon(null);
         bar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
         bar.setHideOnScroll(false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_add_check:
+                noteViewModel.insert(new Note("", mFolderid, true));
+                return true;
+            case R.id.menu_item_add_text:
+                noteViewModel.insert(new Note("", mFolderid, false));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

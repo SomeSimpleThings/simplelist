@@ -1,4 +1,4 @@
-package com.somethingsimple.simplelist.db;
+package com.somethingsimple.simplelist.db.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -7,6 +7,8 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.somethingsimple.simplelist.db.entity.Folder;
 
 import java.util.List;
 
@@ -24,6 +26,9 @@ public interface FolderDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Folder... folders);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insert(Folder folder);
 
     @Update
     void update(Folder folder);

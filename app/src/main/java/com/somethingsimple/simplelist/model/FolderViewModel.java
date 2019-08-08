@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.somethingsimple.simplelist.db.Folder;
+import com.somethingsimple.simplelist.db.entity.Folder;
 
 import java.util.List;
 
@@ -37,8 +37,12 @@ public class FolderViewModel extends AndroidViewModel {
         return mediatorLiveData;
     }
 
-    public void insert(Folder folder) {
-        folderRepository.insert(folder);
+    public long insert(Folder folder) {
+        return folderRepository.insert(folder);
+    }
+
+    public long insert(String name) {
+        return folderRepository.insert(new Folder(name));
     }
 
     public void update(Folder folder) {
@@ -65,10 +69,6 @@ public class FolderViewModel extends AndroidViewModel {
 
     public LiveData<Folder> getFolderLiveData() {
         return folderLiveData;
-    }
-
-    public void insert(String name) {
-        folderRepository.insert(new Folder(name));
     }
 
     @Override

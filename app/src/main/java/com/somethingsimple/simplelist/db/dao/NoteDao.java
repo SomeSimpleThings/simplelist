@@ -1,4 +1,4 @@
-package com.somethingsimple.simplelist.db;
+package com.somethingsimple.simplelist.db.dao;
 
 import java.util.List;
 
@@ -9,6 +9,8 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.somethingsimple.simplelist.db.entity.Note;
 
 @Dao
 public interface NoteDao {

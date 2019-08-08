@@ -1,4 +1,4 @@
-package com.somethingsimple.simplelist.db;
+package com.somethingsimple.simplelist.db.entity;
 
 
 import android.os.Parcel;
@@ -56,14 +56,19 @@ public class Note implements Parcelable {
     private String noteText;
 
     @ColumnInfo
+    @SerializedName("checkable")
+    @Expose
+    private boolean checkable;
+
+    @ColumnInfo
     @SerializedName("checked")
     @Expose
     private boolean checked;
 
-    public Note(String noteTitle, long folderId) {
+    public Note(String noteTitle, long folderId, boolean checkable) {
         this.noteTitle = noteTitle;
         this.folderId = folderId;
-        //// TODO: 27/03/2019
+        this.checkable = checkable;
         this.checked = false;
     }
 
@@ -71,6 +76,7 @@ public class Note implements Parcelable {
         noteId = in.readLong();
         noteTitle = in.readString();
         noteText = in.readString();
+        checkable = in.readByte() != 0;
         checked = in.readByte() != 0;
     }
 
@@ -79,6 +85,7 @@ public class Note implements Parcelable {
         dest.writeLong(noteId);
         dest.writeString(noteTitle);
         dest.writeString(noteText);
+        dest.writeByte((byte) (checkable ? 1 : 0));
         dest.writeByte((byte) (checked ? 1 : 0));
     }
 
@@ -131,6 +138,14 @@ public class Note implements Parcelable {
         this.noteText = noteText;
     }
 
+    public boolean isCheckable() {
+        return checkable;
+    }
+
+    public void setCheckable(boolean checkable) {
+        this.checkable = checkable;
+    }
+
     public boolean isChecked() {
         return checked;
     }
@@ -152,6 +167,7 @@ public class Note implements Parcelable {
         Note note = (Note) o;
         return noteId == note.noteId &&
                 folderId == note.folderId &&
+                checkable == note.checkable &&
                 checked == note.checked &&
                 Objects.equals(userId, note.userId) &&
                 Objects.equals(noteTitle, note.noteTitle) &&
@@ -160,6 +176,6 @@ public class Note implements Parcelable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, noteId, folderId, noteTitle, noteText, checked);
+        return Objects.hash(userId, noteId, folderId, noteTitle, noteText, checkable, checked);
     }
 }

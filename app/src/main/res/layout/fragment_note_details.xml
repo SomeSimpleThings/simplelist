@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/darker_gray"
-        tools:listitem="@layout/note_checkable_recyclerview_item" />
+        tools:listitem="@layout/checkable_recyclerview_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
