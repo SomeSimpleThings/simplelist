@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.somethingsimple.simplelist.SingleLiveEvent;
 import com.somethingsimple.simplelist.db.entity.Folder;
 
 import java.util.List;
@@ -15,6 +16,11 @@ import java.util.List;
 public class FolderViewModel extends AndroidViewModel {
 
     private final FolderRepository folderRepository;
+
+    private final SingleLiveEvent<Void> mNewNoteEvent = new SingleLiveEvent<>();
+    private final SingleLiveEvent<Long> mOpenNoteEvent = new SingleLiveEvent<>();
+
+
     private LiveData<List<Folder>> liveData;
     private LiveData<Folder> folderLiveData;
 
@@ -74,5 +80,21 @@ public class FolderViewModel extends AndroidViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
+    }
+
+    public SingleLiveEvent<Long> getOpenNoteEvent() {
+        return mOpenNoteEvent;
+    }
+
+    public SingleLiveEvent<Void> getNewNoteEvent() {
+        return mNewNoteEvent;
+    }
+
+    public void addNote() {
+        openNote(insert("new one"));
+    }
+
+    public void openNote(Long id) {
+        mOpenNoteEvent.setValue(id);
     }
 }

@@ -10,6 +10,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -67,6 +68,13 @@ public class Note implements Parcelable {
 
     public Note(String noteTitle, long folderId, boolean checkable) {
         this.noteTitle = noteTitle;
+        this.folderId = folderId;
+        this.checkable = checkable;
+        this.checked = false;
+    }
+    @Ignore
+    public Note(long folderId, boolean checkable) {
+        this.noteTitle = "";
         this.folderId = folderId;
         this.checkable = checkable;
         this.checked = false;
@@ -162,7 +170,7 @@ public class Note implements Parcelable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        //if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Note note = (Note) o;
         return noteId == note.noteId &&

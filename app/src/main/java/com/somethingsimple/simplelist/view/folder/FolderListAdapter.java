@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.somethingsimple.simplelist.R;
 import com.somethingsimple.simplelist.db.entity.Folder;
+import com.somethingsimple.simplelist.model.FolderViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -18,7 +19,7 @@ import java.util.Locale;
 
 public class FolderListAdapter extends ListAdapter<Folder, FolderListAdapter.FolderViewHolder> {
 
-    private final FolderClickListener mOnlickListener;
+    private FolderViewModel mFolderViewModel;
 
     private static final DiffUtil.ItemCallback<Folder> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<Folder>() {
@@ -53,9 +54,10 @@ public class FolderListAdapter extends ListAdapter<Folder, FolderListAdapter.Fol
                     Locale.getDefault(), "%d %s", folder.getId(), folder.getFolderName()));
             folderText.setText(folder.getFolderName());
             folderTitle.setOnClickListener(v ->
-                    mOnlickListener.onFolderClick(this.folder));
+                    mFolderViewModel.getOpenNoteEvent().setValue(folder.getId())
+            );
             folderText.setOnClickListener(v ->
-                    mOnlickListener.onFolderClick(this.folder));
+                    mFolderViewModel.getOpenNoteEvent().setValue(folder.getId()));
         }
 
         public Folder getfolder() {
@@ -63,9 +65,9 @@ public class FolderListAdapter extends ListAdapter<Folder, FolderListAdapter.Fol
         }
     }
 
-    public FolderListAdapter(FolderClickListener clickListener) {
+    public FolderListAdapter(FolderViewModel folderViewModel) {
         super(DIFF_CALLBACK);
-        mOnlickListener = clickListener;
+        mFolderViewModel = folderViewModel;
     }
 
     @NonNull

@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,14 +17,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.somethingsimple.simplelist.R;
-import com.somethingsimple.simplelist.db.entity.Note;
-import com.somethingsimple.simplelist.model.FolderViewModel;
 import com.somethingsimple.simplelist.model.NotesViewModel;
+import com.somethingsimple.simplelist.view.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,14 +30,7 @@ import com.somethingsimple.simplelist.model.NotesViewModel;
 public class NoteDetailsFragment extends Fragment {
 
     private NotesViewModel noteViewModel;
-    private FolderViewModel folderViewModel;
-
-    private FloatingActionButton fab;
-    private Note mNote;
-    private long mFolderid;
-    private NoteListAdapter adapter;
-    RecyclerView recyclerView;
-
+    NotesAdapter adapter;
 
     public NoteDetailsFragment() {
         // Required empty public constructor
@@ -58,24 +48,14 @@ public class NoteDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_note_details,
                 container, false);
 
+        noteViewModel = MainActivity.obtainNoteViewModel(getActivity());
 
-        mFolderid = getArguments().getLong("folderId");
-        adapter = new NoteListAdapter(note -> {
-
-        }, (actionId, note) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                noteViewModel.update(note);
-                return true;
-            }
-            return false;
-        });
-        noteViewModel = ViewModelProviders.of(this).get(NotesViewModel.class);
-        folderViewModel = ViewModelProviders.of(this).get(FolderViewModel.class);
-        noteViewModel.getNotes(false, mFolderid).observe(this, adapter::submitList);
+        adapter = new NotesAdapter(getContext());
+        noteViewModel.getNotes().observe(this, adapter::setNotes);
 
         setupToolbar(view);
         setupFab(view);
-        recyclerView = view.findViewById(R.id.recyclerview_note);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerview_note);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
@@ -83,13 +63,14 @@ public class NoteDetailsFragment extends Fragment {
     }
 
     private void setupFab(View view) {
-        fab = getActivity().findViewById(R.id.fab);
+        FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setImageResource(R.drawable.ic_done_black_24dp);
         fab.setOnClickListener(v -> {
             Navigation.findNavController(view).navigate(
                     R.id.action_noteDetailsFragment_to_noteListFragment);
         });
     }
+
 
     private void setupToolbar(View view) {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
@@ -118,10 +99,10 @@ public class NoteDetailsFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_add_check:
-                noteViewModel.insert(new Note("", mFolderid, true));
+                noteViewModel.addNoteCheckable();
                 return true;
             case R.id.menu_item_add_text:
-                noteViewModel.insert(new Note("", mFolderid, false));
+                noteViewModel.addNote();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

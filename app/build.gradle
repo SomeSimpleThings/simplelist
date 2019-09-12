@@ -5,6 +5,7 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
+
     signingConfigs {
         config_debug {
             keyAlias keystoreProperties['keyAlias']
@@ -13,11 +14,11 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.somethingsimple.simplelist"
         minSdkVersion 23
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -42,43 +43,46 @@ android {
             signingConfig signingConfigs.config_debug
         }
     }
-    buildToolsVersion '28.0.3'
+    buildToolsVersion '29.0.2'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
     productFlavors {
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha03'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha04'
     implementation 'com.google.android.material:material:1.0.0'
-    implementation "androidx.navigation:navigation-fragment:2.2.0-alpha01"
-    implementation "androidx.navigation:navigation-ui:2.2.0-alpha01"
+    implementation "androidx.navigation:navigation-fragment:2.2.0-alpha02"
+    implementation "androidx.navigation:navigation-ui:2.2.0-alpha02"
     //room
-    implementation 'androidx.room:room-runtime:2.2.0-alpha02'
+    implementation 'androidx.room:room-runtime:2.2.0-rc01'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    annotationProcessor "androidx.room:room-compiler:2.2.0-alpha02"
+    annotationProcessor "androidx.room:room-compiler:2.2.0-rc01"
     //dagger
-    implementation 'com.google.dagger:dagger:2.22.1'
-    implementation 'com.google.dagger:dagger-android:2.22.1'
-    implementation 'com.google.dagger:dagger-android-support:2.22.1'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.22.1'
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.22.1'
+    implementation 'com.google.dagger:dagger:2.24'
+    implementation 'com.google.dagger:dagger-android:2.24'
+    implementation 'com.google.dagger:dagger-android-support:2.24'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.24'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.24'
     //firebase
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
-    implementation 'com.google.firebase:firebase-auth:18.1.0'
-    implementation 'com.google.firebase:firebase-core:17.0.1'
+    implementation 'com.google.firebase:firebase-auth:19.0.0'
+    implementation 'com.google.firebase:firebase-core:17.2.0'
     //butterknife
     implementation 'com.jakewharton:butterknife:10.1.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     //retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.1.0'
     //glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'

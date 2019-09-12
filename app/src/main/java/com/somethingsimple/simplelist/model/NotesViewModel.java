@@ -2,6 +2,7 @@ package com.somethingsimple.simplelist.model;
 
 import android.app.Application;
 
+import com.somethingsimple.simplelist.SingleLiveEvent;
 import com.somethingsimple.simplelist.db.entity.Note;
 
 import java.util.List;
@@ -16,7 +17,10 @@ public class NotesViewModel extends AndroidViewModel {
 
     private final NotesRepository notesRepo;
     private LiveData<List<Note>> liveData;
-    private LiveData<Note> note;
+    private long currentFolderId;
+
+    private final SingleLiveEvent<Long> mSaveNoteEvent = new SingleLiveEvent<>();
+
 
     private final MediatorLiveData<List<Note>> mediatorLiveData;
 
@@ -26,15 +30,24 @@ public class NotesViewModel extends AndroidViewModel {
         mediatorLiveData = new MediatorLiveData<>();
     }
 
-    public MediatorLiveData<List<Note>> getNotes(boolean ordered, long folderId) {
+    public MediatorLiveData<List<Note>> getNotes() {
+        boolean ordered = true;
         mediatorLiveData.removeSource(liveData);
         if (ordered) {
-            liveData = notesRepo.getAllNotesReversed(folderId);
+            liveData = notesRepo.getAllNotesReversed(getCurrentFolderId());
         } else {
-            liveData = notesRepo.getAllNotes(folderId);
+            liveData = notesRepo.getAllNotes(getCurrentFolderId());
         }
         mediatorLiveData.addSource(liveData, mediatorLiveData::setValue);
         return mediatorLiveData;
+    }
+
+    public void addNote() {
+        notesRepo.insert(new Note(getCurrentFolderId(), false));
+    }
+
+    public void addNoteCheckable() {
+        notesRepo.insert(new Note(getCurrentFolderId(), true));
     }
 
     public void insert(Note note) {
@@ -53,20 +66,6 @@ public class NotesViewModel extends AndroidViewModel {
         notesRepo.deleteAll();
     }
 
-//    public void init(long id, long folderId) {
-//        if (this.note != null) {
-//            // ViewModel is created on a per-Fragment basis, so the userId
-//            // doesn't change.
-//            return;
-//        }
-//        if (id == -1) note = new MutableLiveData<>(new Note("", folderId, false));
-//        else note = notesRepo.getNote(id);
-//    }
-
-    public LiveData<Note> getNote(long folderId) {
-        return note;
-    }
-
     public void insert(String note, long folderId) {
         notesRepo.insert(new Note(note, folderId, false));
     }
@@ -74,5 +73,17 @@ public class NotesViewModel extends AndroidViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
+    }
+
+    public SingleLiveEvent<Long> getSaveNoteEvent() {
+        return mSaveNoteEvent;
+    }
+
+    public long getCurrentFolderId() {
+        return currentFolderId;
+    }
+
+    public void setCurrentFolderId(long currentFolderId) {
+        this.currentFolderId = currentFolderId;
     }
 }

@@ -26,6 +26,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.somethingsimple.simplelist.R;
 import com.somethingsimple.simplelist.db.entity.Folder;
 import com.somethingsimple.simplelist.model.FolderViewModel;
+import com.somethingsimple.simplelist.view.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,8 +55,8 @@ public class FolderListFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new FolderListAdapter(folder -> onFolderClick(folder.getId()));
-        folderViewModel = ViewModelProviders.of(this).get(FolderViewModel.class);
+        folderViewModel = MainActivity.obtainFolderViewModel(getActivity());
+        adapter = new FolderListAdapter(folderViewModel);
         folderViewModel.getFolders(ordered).observe(this, adapter::submitList);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
@@ -98,7 +99,8 @@ public class FolderListFragment extends Fragment {
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setImageResource(R.drawable.ic_add_black_24dp);
         fab.setOnClickListener(v -> {
-            onFolderClick(folderViewModel.insert("new note"));
+            folderViewModel.addNote();
+//            onFolderClick(folderViewModel.insert("new note"));
         });
         fab.show();
     }
