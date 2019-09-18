@@ -48,12 +48,8 @@ public class MainActivity extends AppCompatActivity
         mFolderViewModel = obtainFolderViewModel(this);
         mNoteViewModel = obtainNoteViewModel(this);
 
-        mFolderViewModel.getNewNoteEvent().observe(this,
-                action -> navController.navigate(
-                        R.id.action_folderListFragment_to_noteDetailsFragment));
-
-        mFolderViewModel.getOpenNoteEvent().observe(this, id -> {
-            mNoteViewModel.setCurrentFolderId(id);
+        mFolderViewModel.getOpenNoteEvent().observe(this, folder -> {
+            mNoteViewModel.setCurrentFolder(folder);
             navController.navigate(
                     R.id.action_folderListFragment_to_noteDetailsFragment);
         });

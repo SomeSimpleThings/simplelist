@@ -47,10 +47,10 @@ public class FolderListFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_folder_list, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
@@ -91,17 +91,23 @@ public class FolderListFragment extends Fragment {
         itemTouchHelper.attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(adapter);
 
+        checkUpdateFolderName();
         setupFab();
         return view;
+    }
+
+    private void checkUpdateFolderName() {
+        if (this.getArguments() != null) {
+            String foldername = this.getArguments().getString(
+                    getActivity().getString(R.string.foldername_key));
+            folderViewModel.update(foldername);
+        }
     }
 
     private void setupFab() {
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setImageResource(R.drawable.ic_add_black_24dp);
-        fab.setOnClickListener(v -> {
-            folderViewModel.addNote();
-//            onFolderClick(folderViewModel.insert("new note"));
-        });
+        fab.setOnClickListener(v -> folderViewModel.addNote());
         fab.show();
     }
 
@@ -133,12 +139,5 @@ public class FolderListFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void onFolderClick(long folderId) {
-        Bundle bundle = new Bundle();
-        bundle.putLong("folderId", folderId);
-        Navigation.findNavController(getView()).navigate(
-                R.id.action_folderListFragment_to_noteDetailsFragment, bundle);
     }
 }

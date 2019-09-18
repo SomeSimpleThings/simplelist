@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -31,6 +32,8 @@ public class NoteDetailsFragment extends Fragment {
 
     private NotesViewModel noteViewModel;
     NotesAdapter adapter;
+    EditText toolbarEditText;
+
 
     public NoteDetailsFragment() {
         // Required empty public constructor
@@ -48,7 +51,11 @@ public class NoteDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_note_details,
                 container, false);
 
+
         noteViewModel = MainActivity.obtainNoteViewModel(getActivity());
+
+        toolbarEditText = view.findViewById(R.id.edit_foldername);
+        toolbarEditText.setText(noteViewModel.getCurrentFolder().getFolderName());
 
         adapter = new NotesAdapter(getContext());
         noteViewModel.getNotes().observe(this, adapter::setNotes);
@@ -66,8 +73,8 @@ public class NoteDetailsFragment extends Fragment {
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setImageResource(R.drawable.ic_done_black_24dp);
         fab.setOnClickListener(v -> {
-            Navigation.findNavController(view).navigate(
-                    R.id.action_noteDetailsFragment_to_noteListFragment);
+            noteViewModel.update(adapter.getNotes());
+            navigateBackToFolder(view);
         });
     }
 
@@ -75,8 +82,15 @@ public class NoteDetailsFragment extends Fragment {
     private void setupToolbar(View view) {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-        toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).navigate(
-                R.id.action_noteDetailsFragment_to_noteListFragment));
+        toolbar.setNavigationOnClickListener(v -> navigateBackToFolder(view));
+    }
+
+    private void navigateBackToFolder(View view) {
+        Bundle bundle = new Bundle();
+        String text = toolbarEditText.getText().toString();
+        bundle.putString(getActivity().getString(R.string.foldername_key), text);
+        Navigation.findNavController(view).navigate(
+                R.id.action_noteDetailsFragment_to_noteListFragment, bundle);
     }
 
     @Override

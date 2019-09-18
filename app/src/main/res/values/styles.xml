@@ -26,4 +26,13 @@
         <item name="android:paddingLeft">8dp</item>
     </style>
 
+    <style name="note_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:paddingLeft">8dp</item>
+    </style>
+
 </resources>

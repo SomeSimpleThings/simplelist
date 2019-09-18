@@ -53,14 +53,16 @@ public class FolderListAdapter extends ListAdapter<Folder, FolderListAdapter.Fol
             folderTitle.setText(String.format(
                     Locale.getDefault(), "%d %s", folder.getId(), folder.getFolderName()));
             folderText.setText(folder.getFolderName());
-            folderTitle.setOnClickListener(v ->
-                    mFolderViewModel.getOpenNoteEvent().setValue(folder.getId())
-            );
-            folderText.setOnClickListener(v ->
-                    mFolderViewModel.getOpenNoteEvent().setValue(folder.getId()));
+            folderTitle.setOnClickListener(v -> onFolderCLick(folder));
+            folderText.setOnClickListener(v -> onFolderCLick(folder));
         }
 
-        public Folder getfolder() {
+        private void onFolderCLick(Folder folder) {
+            mFolderViewModel.getOpenNoteEvent().setValue(folder);
+            mFolderViewModel.setFolder(folder);
+        }
+
+        Folder getfolder() {
             return folder;
         }
     }
@@ -82,4 +84,5 @@ public class FolderListAdapter extends ListAdapter<Folder, FolderListAdapter.Fol
     public void onBindViewHolder(@NonNull FolderViewHolder holder, int position) {
         holder.bind(getItem(position));
     }
+
 }

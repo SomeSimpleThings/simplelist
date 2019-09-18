@@ -56,7 +56,7 @@ class NotesRepository {
         executorService.execute(() -> mNoteDao.insert(note));
     }
 
-    void update(Note note) {
+    void update(Note... note) {
         executorService.execute(() -> mNoteDao.update(note));
     }
 

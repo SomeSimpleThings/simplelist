@@ -42,7 +42,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
             Note current = mNotes.get(position);
             holder.noteBinding.setNote(current);
         }
-
     }
 
     @Override
@@ -55,6 +54,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     void setNotes(List<Note> notes) {
         mNotes = notes;
         notifyDataSetChanged();
+    }
+
+    public List<Note> getNotes() {
+        return mNotes;
     }
 
     class NotesViewHolder extends RecyclerView.ViewHolder {

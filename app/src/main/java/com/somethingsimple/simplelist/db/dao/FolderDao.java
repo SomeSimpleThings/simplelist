@@ -33,6 +33,9 @@ public interface FolderDao {
     @Update
     void update(Folder folder);
 
+    @Query("UPDATE Folder SET folderName = :foldername WHERE id = :id; ")
+    void update(long id, String foldername);
+
     @Delete
     void delete(Folder folder);
 

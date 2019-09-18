@@ -125,8 +125,6 @@ public class LoginFragment extends Fragment
                     R.id.action_loginFragment_to_noteListFragment);
         } else {
             Log.w(TAG, "signInWithCredential", task.getException());
-//            Toast.makeText(SignInActivity.this, "Authentication failed.",
-//                    Toast.LENGTH_SHORT).show();
         }
     }
 

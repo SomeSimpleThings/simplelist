@@ -3,6 +3,7 @@ package com.somethingsimple.simplelist.model;
 import android.app.Application;
 
 import com.somethingsimple.simplelist.SingleLiveEvent;
+import com.somethingsimple.simplelist.db.entity.Folder;
 import com.somethingsimple.simplelist.db.entity.Note;
 
 import java.util.List;
@@ -17,10 +18,7 @@ public class NotesViewModel extends AndroidViewModel {
 
     private final NotesRepository notesRepo;
     private LiveData<List<Note>> liveData;
-    private long currentFolderId;
-
-    private final SingleLiveEvent<Long> mSaveNoteEvent = new SingleLiveEvent<>();
-
+    private Folder currentFolder;
 
     private final MediatorLiveData<List<Note>> mediatorLiveData;
 
@@ -31,31 +29,31 @@ public class NotesViewModel extends AndroidViewModel {
     }
 
     public MediatorLiveData<List<Note>> getNotes() {
-        boolean ordered = true;
+        boolean ordered = false;
         mediatorLiveData.removeSource(liveData);
         if (ordered) {
-            liveData = notesRepo.getAllNotesReversed(getCurrentFolderId());
+            liveData = notesRepo.getAllNotesReversed(getCurrentFolder().getId());
         } else {
-            liveData = notesRepo.getAllNotes(getCurrentFolderId());
+            liveData = notesRepo.getAllNotes(getCurrentFolder().getId());
         }
         mediatorLiveData.addSource(liveData, mediatorLiveData::setValue);
         return mediatorLiveData;
     }
 
     public void addNote() {
-        notesRepo.insert(new Note(getCurrentFolderId(), false));
+        notesRepo.insert(new Note(getCurrentFolder().getId(), false));
     }
 
     public void addNoteCheckable() {
-        notesRepo.insert(new Note(getCurrentFolderId(), true));
+        notesRepo.insert(new Note(getCurrentFolder().getId(), true));
     }
 
     public void insert(Note note) {
         notesRepo.insert(note);
     }
 
-    public void update(Note note) {
-        notesRepo.update(note);
+    public void update(List<Note> notes) {
+        notesRepo.update(notes.toArray(new Note[0]));
     }
 
     public void delete(Note note) {
@@ -75,15 +73,11 @@ public class NotesViewModel extends AndroidViewModel {
         super.onCleared();
     }
 
-    public SingleLiveEvent<Long> getSaveNoteEvent() {
-        return mSaveNoteEvent;
+    public Folder getCurrentFolder() {
+        return currentFolder;
     }
 
-    public long getCurrentFolderId() {
-        return currentFolderId;
-    }
-
-    public void setCurrentFolderId(long currentFolderId) {
-        this.currentFolderId = currentFolderId;
+    public void setCurrentFolder(Folder currentFolder) {
+        this.currentFolder = currentFolder;
     }
 }

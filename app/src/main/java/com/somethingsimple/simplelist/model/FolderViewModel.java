@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.somethingsimple.simplelist.SingleLiveEvent;
 import com.somethingsimple.simplelist.db.entity.Folder;
@@ -17,12 +16,10 @@ public class FolderViewModel extends AndroidViewModel {
 
     private final FolderRepository folderRepository;
 
-    private final SingleLiveEvent<Void> mNewNoteEvent = new SingleLiveEvent<>();
-    private final SingleLiveEvent<Long> mOpenNoteEvent = new SingleLiveEvent<>();
-
+    private final SingleLiveEvent<Folder> mOpenNoteEvent = new SingleLiveEvent<>();
+    private Folder currentFolder;
 
     private LiveData<List<Folder>> liveData;
-    private LiveData<Folder> folderLiveData;
 
     private final MediatorLiveData<List<Folder>> mediatorLiveData;
 
@@ -55,6 +52,11 @@ public class FolderViewModel extends AndroidViewModel {
         folderRepository.update(folder);
     }
 
+    public void update(String foldername) {
+        currentFolder.setFolderName(foldername);
+        folderRepository.update(currentFolder);
+    }
+
     public void delete(Folder folder) {
         folderRepository.delete(folder);
     }
@@ -63,38 +65,31 @@ public class FolderViewModel extends AndroidViewModel {
         folderRepository.deleteAll();
     }
 
-    public void init(long id) {
-        if (this.folderLiveData != null) {
-            // ViewModel is created on a per-Fragment basis, so the userId
-            // doesn't change.
-            return;
-        }
-        if (id == -1) folderLiveData = new MutableLiveData<>(new Folder(""));
-        else folderLiveData = folderRepository.getFolder(id);
-    }
-
-    public LiveData<Folder> getFolderLiveData() {
-        return folderLiveData;
-    }
-
     @Override
     protected void onCleared() {
         super.onCleared();
     }
 
-    public SingleLiveEvent<Long> getOpenNoteEvent() {
+    public SingleLiveEvent<Folder> getOpenNoteEvent() {
         return mOpenNoteEvent;
     }
 
-    public SingleLiveEvent<Void> getNewNoteEvent() {
-        return mNewNoteEvent;
-    }
-
     public void addNote() {
-        openNote(insert("new one"));
+        currentFolder = new Folder("");
+        currentFolder.setId(insert(currentFolder));
+        openNote(currentFolder);
     }
 
-    public void openNote(Long id) {
-        mOpenNoteEvent.setValue(id);
+    public void openNote(Folder folder) {
+        currentFolder = folder;
+        mOpenNoteEvent.setValue(folder);
+    }
+
+    public Folder getFolder() {
+        return currentFolder;
+    }
+
+    public void setFolder(Folder currentFolder) {
+        this.currentFolder = currentFolder;
     }
 }

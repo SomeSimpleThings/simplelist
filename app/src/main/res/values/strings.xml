@@ -24,4 +24,5 @@
     <string name="hint_title">Title...</string>
     <string name="menu_item_smth">Something</string>
     <string name="menu_sort">Sort</string>
+    <string name="foldername_key">folder_name</string>
 </resources>
