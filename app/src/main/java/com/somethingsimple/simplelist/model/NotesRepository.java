@@ -60,7 +60,7 @@ class NotesRepository {
         executorService.execute(() -> mNoteDao.update(note));
     }
 
-    void delete(Note note) {
+    void delete(Note... note) {
         executorService.execute(() -> mNoteDao.delete(note));
     }
 

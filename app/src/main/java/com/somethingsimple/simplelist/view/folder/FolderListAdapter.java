@@ -53,13 +53,8 @@ public class FolderListAdapter extends ListAdapter<Folder, FolderListAdapter.Fol
             folderTitle.setText(String.format(
                     Locale.getDefault(), "%d %s", folder.getId(), folder.getFolderName()));
             folderText.setText(folder.getFolderName());
-            folderTitle.setOnClickListener(v -> onFolderCLick(folder));
-            folderText.setOnClickListener(v -> onFolderCLick(folder));
-        }
-
-        private void onFolderCLick(Folder folder) {
-            mFolderViewModel.getOpenNoteEvent().setValue(folder);
-            mFolderViewModel.setFolder(folder);
+            folderTitle.setOnClickListener(v -> mFolderViewModel.openNote(folder));
+            folderText.setOnClickListener(v -> mFolderViewModel.openNote(folder));
         }
 
         Folder getfolder() {

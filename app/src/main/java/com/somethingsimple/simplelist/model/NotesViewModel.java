@@ -40,20 +40,13 @@ public class NotesViewModel extends AndroidViewModel {
         return mediatorLiveData;
     }
 
-    public void addNote() {
-        notesRepo.insert(new Note(getCurrentFolder().getId(), false));
-    }
-
-    public void addNoteCheckable() {
-        notesRepo.insert(new Note(getCurrentFolder().getId(), true));
-    }
-
     public void insert(Note note) {
         notesRepo.insert(note);
     }
 
-    public void update(List<Note> notes) {
-        notesRepo.update(notes.toArray(new Note[0]));
+    public void update(List<Note> notesToChange, List<Note> notesToDelete) {
+        notesRepo.delete(notesToDelete.toArray(new Note[0]));
+        notesRepo.insert(notesToChange.toArray(new Note[0]));
     }
 
     public void delete(Note note) {

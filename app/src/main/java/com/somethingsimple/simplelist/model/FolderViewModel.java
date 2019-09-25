@@ -88,8 +88,4 @@ public class FolderViewModel extends AndroidViewModel {
     public Folder getFolder() {
         return currentFolder;
     }
-
-    public void setFolder(Folder currentFolder) {
-        this.currentFolder = currentFolder;
-    }
 }

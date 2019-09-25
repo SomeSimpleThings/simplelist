@@ -34,7 +34,7 @@ public interface NoteDao {
     void update(Note... note);
 
     @Delete
-    void delete(Note note);
+    void delete(Note... note);
 
     @Query("DELETE from Note WHERE noteId = :noteId")
     void delete(long noteId);

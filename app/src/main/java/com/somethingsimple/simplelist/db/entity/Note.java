@@ -30,10 +30,6 @@ import static androidx.room.ForeignKey.CASCADE;
 
 public class Note implements Parcelable {
 
-    @SerializedName("userId")
-    @Expose
-    @Ignore
-    private Integer userId;
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo
@@ -45,11 +41,6 @@ public class Note implements Parcelable {
     @SerializedName("folder_id")
     @Expose
     private long folderId;
-
-    @ColumnInfo
-    @SerializedName("title")
-    @Expose
-    private String noteTitle;
 
     @ColumnInfo
     @SerializedName("text")
@@ -66,15 +57,15 @@ public class Note implements Parcelable {
     @Expose
     private boolean checked;
 
-    public Note(String noteTitle, long folderId, boolean checkable) {
-        this.noteTitle = noteTitle;
+    public Note(String noteText, long folderId, boolean checkable) {
+        this.noteText = noteText;
         this.folderId = folderId;
         this.checkable = checkable;
         this.checked = false;
     }
     @Ignore
     public Note(long folderId, boolean checkable) {
-        this.noteTitle = "";
+        this.noteText = "";
         this.folderId = folderId;
         this.checkable = checkable;
         this.checked = false;
@@ -82,7 +73,6 @@ public class Note implements Parcelable {
 
     Note(Parcel in) {
         noteId = in.readLong();
-        noteTitle = in.readString();
         noteText = in.readString();
         checkable = in.readByte() != 0;
         checked = in.readByte() != 0;
@@ -91,7 +81,6 @@ public class Note implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(noteId);
-        dest.writeString(noteTitle);
         dest.writeString(noteText);
         dest.writeByte((byte) (checkable ? 1 : 0));
         dest.writeByte((byte) (checked ? 1 : 0));
@@ -130,14 +119,6 @@ public class Note implements Parcelable {
         this.folderId = folderId;
     }
 
-    public String getNoteTitle() {
-        return noteTitle;
-    }
-
-    public void setNoteTitle(String noteTitle) {
-        this.noteTitle = noteTitle;
-    }
-
     public String getNoteText() {
         return noteText;
     }
@@ -165,7 +146,7 @@ public class Note implements Parcelable {
     @NonNull
     @Override
     public String toString() {
-        return noteId + " " + noteTitle;
+        return noteId + " " + noteText;
     }
 
     @Override
@@ -177,13 +158,11 @@ public class Note implements Parcelable {
                 folderId == note.folderId &&
                 checkable == note.checkable &&
                 checked == note.checked &&
-                Objects.equals(userId, note.userId) &&
-                Objects.equals(noteTitle, note.noteTitle) &&
                 Objects.equals(noteText, note.noteText);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, noteId, folderId, noteTitle, noteText, checkable, checked);
+        return Objects.hash(noteId, folderId, noteText, checkable, checked);
     }
 }

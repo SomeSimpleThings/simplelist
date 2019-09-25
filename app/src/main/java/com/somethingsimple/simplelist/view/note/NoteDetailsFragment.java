@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,40 +53,44 @@ public class NoteDetailsFragment extends Fragment {
                 container, false);
 
 
+        adapter = new NotesAdapter(getContext());
+
         noteViewModel = MainActivity.obtainNoteViewModel(getActivity());
+        noteViewModel.getNotes().observe(this, adapter::setNotes);
 
         toolbarEditText = view.findViewById(R.id.edit_foldername);
         toolbarEditText.setText(noteViewModel.getCurrentFolder().getFolderName());
 
-        adapter = new NotesAdapter(getContext());
-        noteViewModel.getNotes().observe(this, adapter::setNotes);
-
         setupToolbar(view);
         setupFab(view);
+        setupRecyclerView(view);
+
+        return view;
+    }
+
+    private void setupRecyclerView(View view) {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview_note);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-
-        return view;
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeCallback(adapter));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     private void setupFab(View view) {
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setImageResource(R.drawable.ic_done_black_24dp);
-        fab.setOnClickListener(v -> {
-            noteViewModel.update(adapter.getNotes());
-            navigateBackToFolder(view);
-        });
+        fab.setOnClickListener(v -> updateAndNavigateBack(view));
     }
 
 
     private void setupToolbar(View view) {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-        toolbar.setNavigationOnClickListener(v -> navigateBackToFolder(view));
+        toolbar.setNavigationOnClickListener(v -> updateAndNavigateBack(view));
     }
 
-    private void navigateBackToFolder(View view) {
+    private void updateAndNavigateBack(View view) {
+        noteViewModel.update(adapter.getNotes(), adapter.getDeletedNotes());
         Bundle bundle = new Bundle();
         String text = toolbarEditText.getText().toString();
         bundle.putString(getActivity().getString(R.string.foldername_key), text);
@@ -113,10 +118,12 @@ public class NoteDetailsFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_add_check:
-                noteViewModel.addNoteCheckable();
+                //noteViewModel.addNoteCheckable();
+                adapter.addNoteCheckable(noteViewModel.getCurrentFolder().getId());
                 return true;
             case R.id.menu_item_add_text:
-                noteViewModel.addNote();
+                //noteViewModel.addNote();
+                adapter.addNote(noteViewModel.getCurrentFolder().getId());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
