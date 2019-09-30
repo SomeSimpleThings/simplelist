@@ -7,8 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,14 +22,16 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.somethingsimple.simplelist.R;
-import com.somethingsimple.simplelist.db.entity.Folder;
 import com.somethingsimple.simplelist.model.FolderViewModel;
+import com.somethingsimple.simplelist.swipeInteractions.SwipeCallback;
+import com.somethingsimple.simplelist.swipeInteractions.SwipeCallbackListener;
 import com.somethingsimple.simplelist.view.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FolderListFragment extends Fragment {
+public class FolderListFragment extends Fragment
+        implements SwipeCallbackListener {
 
     private FolderViewModel folderViewModel;
     private FolderListAdapter adapter;
@@ -51,49 +51,27 @@ public class FolderListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_folder_list, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         folderViewModel = MainActivity.obtainFolderViewModel(getActivity());
-        adapter = new FolderListAdapter(folderViewModel);
-        folderViewModel.getFolders(ordered).observe(this, adapter::submitList);
+        adapter = new FolderListAdapter(getContext(),folderViewModel);
+        folderViewModel.getFolders(ordered).observe(this, adapter::setFolders);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
-                new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-                    @Override
-                    public boolean onMove(@NonNull RecyclerView recyclerView,
-                                          @NonNull RecyclerView.ViewHolder viewHolder,
-                                          @NonNull RecyclerView.ViewHolder target) {
-                        return false;
-                    }
-
-                    @Override
-                    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                        FolderListAdapter.FolderViewHolder holder = (FolderListAdapter.FolderViewHolder) viewHolder;
-                        if (holder.getfolder() != null) {
-                            folderViewModel.delete(holder.getfolder());
-                            Snackbar.make(view, R.string.folder_removed_message, Snackbar.LENGTH_LONG)
-                                    .setAction(R.string.undo, v ->
-                                            folderViewModel.insert(holder.getfolder()))
-                                    .show();
-//                            CoordinatorLayout.LayoutParams params =
-//                                    ((CoordinatorLayout.LayoutParams) snackbar.getView().getLayoutParams());
-//                            params.setMargins(
-//                                    params.leftMargin,
-//                                    params.topMargin,
-//                                    params.rightMargin,
-//                                    params.bottomMargin + 125
-//                            );
-                        }
-                    }
-                });
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-        recyclerView.setAdapter(adapter);
-
+        setupRecyclerView(view);
         checkUpdateFolderName();
         setupFab();
         return view;
+    }
+
+    private void setupRecyclerView(View view) {
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
+                new SwipeCallback(this, adapter));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     private void checkUpdateFolderName() {
@@ -107,7 +85,7 @@ public class FolderListFragment extends Fragment {
     private void setupFab() {
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setImageResource(R.drawable.ic_add_black_24dp);
-        fab.setOnClickListener(v -> folderViewModel.addNote());
+        fab.setOnClickListener(v -> folderViewModel.addFolder());
         fab.show();
     }
 
@@ -135,9 +113,17 @@ public class FolderListFragment extends Fragment {
                 return true;
             case R.id.menu_sort:
                 ordered = !ordered;
-                folderViewModel.getFolders(ordered).observe(this, adapter::submitList);
+                folderViewModel.getFolders(ordered).observe(this, adapter::setFolders);
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onSwipe() {
+        Snackbar.make(getView(), R.string.folder_removed_message, Snackbar.LENGTH_LONG)
+                .setAction(R.string.undo, v ->
+                        adapter.undoDelete())
+                .show();
     }
 }

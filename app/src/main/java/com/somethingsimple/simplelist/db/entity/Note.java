@@ -38,6 +38,11 @@ public class Note implements Parcelable {
     private long noteId;
 
     @ColumnInfo
+    @SerializedName("position")
+    @Expose
+    private int position;
+
+    @ColumnInfo
     @SerializedName("folder_id")
     @Expose
     private long folderId;
@@ -57,22 +62,18 @@ public class Note implements Parcelable {
     @Expose
     private boolean checked;
 
-    public Note(String noteText, long folderId, boolean checkable) {
-        this.noteText = noteText;
-        this.folderId = folderId;
-        this.checkable = checkable;
-        this.checked = false;
-    }
-    @Ignore
-    public Note(long folderId, boolean checkable) {
+    public Note(long folderId, int position,  boolean checkable) {
         this.noteText = "";
         this.folderId = folderId;
+        this.position = position;
         this.checkable = checkable;
         this.checked = false;
     }
 
     Note(Parcel in) {
         noteId = in.readLong();
+        folderId = in.readLong();
+        position = in.readInt();
         noteText = in.readString();
         checkable = in.readByte() != 0;
         checked = in.readByte() != 0;
@@ -81,6 +82,8 @@ public class Note implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(noteId);
+        dest.writeLong(folderId);
+        dest.writeInt(position);
         dest.writeString(noteText);
         dest.writeByte((byte) (checkable ? 1 : 0));
         dest.writeByte((byte) (checked ? 1 : 0));
@@ -117,6 +120,14 @@ public class Note implements Parcelable {
 
     public void setFolderId(long folderId) {
         this.folderId = folderId;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public String getNoteText() {
@@ -156,6 +167,7 @@ public class Note implements Parcelable {
         Note note = (Note) o;
         return noteId == note.noteId &&
                 folderId == note.folderId &&
+                position == note.position &&
                 checkable == note.checkable &&
                 checked == note.checked &&
                 Objects.equals(noteText, note.noteText);
@@ -163,6 +175,6 @@ public class Note implements Parcelable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(noteId, folderId, noteText, checkable, checked);
+        return Objects.hash(noteId, position, folderId, noteText, checkable, checked);
     }
 }

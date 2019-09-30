@@ -1,83 +1,111 @@
 package com.somethingsimple.simplelist.view.folder;
 
+import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.somethingsimple.simplelist.R;
+import com.somethingsimple.simplelist.databinding.RecyclerviewItemBinding;
 import com.somethingsimple.simplelist.db.entity.Folder;
 import com.somethingsimple.simplelist.model.FolderViewModel;
+import com.somethingsimple.simplelist.swipeInteractions.ItemTouchHelperActions;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Locale;
+import java.util.Collections;
+import java.util.List;
 
-public class FolderListAdapter extends ListAdapter<Folder, FolderListAdapter.FolderViewHolder> {
+public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.FolderViewHolder>
+        implements ItemTouchHelperActions {
 
+    private List<Folder> folders;
+    private int mDeletedPosition;
+    private LayoutInflater mInflater;
+    private Folder mDeletedFolder;
     private FolderViewModel mFolderViewModel;
 
-    private static final DiffUtil.ItemCallback<Folder> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<Folder>() {
-                @Override
-                public boolean areItemsTheSame(@NonNull Folder oldItem, @NonNull Folder newItem) {
-                    return oldItem.getId() == newItem.getId();
-                }
-
-                @Override
-                public boolean areContentsTheSame(@NonNull Folder oldItem, @NonNull Folder newItem) {
-                    return oldItem.equals(newItem);
-                }
-            };
-
-    class FolderViewHolder extends RecyclerView.ViewHolder {
-
-        private final CardView folderCard;
-        private final TextView folderTitle;
-        private final TextView folderText;
-        private Folder folder;
-
-        FolderViewHolder(@NonNull View itemView) {
-            super(itemView);
-            folderCard = itemView.findViewById(R.id.card_view);
-            folderTitle = itemView.findViewById(R.id.folder_title);
-            folderText = itemView.findViewById(R.id.folder_text);
-        }
-
-        private void bind(Folder folder) {
-            this.folder = folder;
-            folderTitle.setText(String.format(
-                    Locale.getDefault(), "%d %s", folder.getId(), folder.getFolderName()));
-            folderText.setText(folder.getFolderName());
-            folderTitle.setOnClickListener(v -> mFolderViewModel.openNote(folder));
-            folderText.setOnClickListener(v -> mFolderViewModel.openNote(folder));
-        }
-
-        Folder getfolder() {
-            return folder;
-        }
+    public interface FolderClickListener {
+        void onFolderClick(Folder folder);
     }
 
-    public FolderListAdapter(FolderViewModel folderViewModel) {
-        super(DIFF_CALLBACK);
+    public FolderListAdapter(Context context, FolderViewModel folderViewModel) {
+        mInflater = LayoutInflater.from(context);
         mFolderViewModel = folderViewModel;
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(folders, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(folders, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        mDeletedPosition = position;
+        mDeletedFolder = folders.get(position);
+        folders.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void undoDelete() {
+        folders.add(mDeletedPosition, mDeletedFolder);
+        notifyItemInserted(mDeletedPosition);
     }
 
     @NonNull
     @Override
     public FolderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.recyclerview_item, parent, false);
-        return new FolderViewHolder(itemView);
+        if (mInflater == null) {
+            mInflater = LayoutInflater.from(parent.getContext());
+        }
+        RecyclerviewItemBinding binding =
+                DataBindingUtil.inflate(mInflater, R.layout.recyclerview_item, parent, false);
+        binding.setHandler(folder -> {
+            //// TODO: 2019-09-30 remove this ugly code
+            mFolderViewModel.openFolder(folder);
+        });
+        return new FolderListAdapter.FolderViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull FolderViewHolder holder, int position) {
-        holder.bind(getItem(position));
+        if (folders != null) {
+            Folder current = folders.get(position);
+            holder.folderBinding.setFolder(current);
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        if (folders != null)
+            return folders.size();
+        else return 0;
+    }
+
+    void setFolders(List<Folder> folders) {
+        this.folders = folders;
+        notifyDataSetChanged();
+    }
+
+    class FolderViewHolder extends RecyclerView.ViewHolder {
+
+        private RecyclerviewItemBinding folderBinding;
+
+        public FolderViewHolder(RecyclerviewItemBinding binding) {
+            super(binding.getRoot());
+            folderBinding = binding;
+        }
     }
 
 }

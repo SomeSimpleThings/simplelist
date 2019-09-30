@@ -2,7 +2,6 @@ package com.somethingsimple.simplelist.model;
 
 import android.app.Application;
 
-import com.somethingsimple.simplelist.SingleLiveEvent;
 import com.somethingsimple.simplelist.db.entity.Folder;
 import com.somethingsimple.simplelist.db.entity.Note;
 
@@ -12,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
 
 public class NotesViewModel extends AndroidViewModel {
 
@@ -29,23 +27,17 @@ public class NotesViewModel extends AndroidViewModel {
     }
 
     public MediatorLiveData<List<Note>> getNotes() {
-        boolean ordered = false;
         mediatorLiveData.removeSource(liveData);
-        if (ordered) {
-            liveData = notesRepo.getAllNotesReversed(getCurrentFolder().getId());
-        } else {
-            liveData = notesRepo.getAllNotes(getCurrentFolder().getId());
-        }
+        liveData = notesRepo.getAllNotes(getCurrentFolder().getId());
         mediatorLiveData.addSource(liveData, mediatorLiveData::setValue);
         return mediatorLiveData;
     }
 
-    public void insert(Note note) {
-        notesRepo.insert(note);
-    }
-
     public void update(List<Note> notesToChange, List<Note> notesToDelete) {
         notesRepo.delete(notesToDelete.toArray(new Note[0]));
+        for (int i = 0; i < notesToChange.size(); i++) {
+            notesToChange.get(i).setPosition(i);
+        }
         notesRepo.insert(notesToChange.toArray(new Note[0]));
     }
 
@@ -55,10 +47,6 @@ public class NotesViewModel extends AndroidViewModel {
 
     public void deleteAll() {
         notesRepo.deleteAll();
-    }
-
-    public void insert(String note, long folderId) {
-        notesRepo.insert(new Note(note, folderId, false));
     }
 
     @Override

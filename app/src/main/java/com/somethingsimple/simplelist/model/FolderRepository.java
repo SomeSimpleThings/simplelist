@@ -19,7 +19,6 @@ public class FolderRepository {
 
     private final FolderDao folderDao;
     private final ExecutorService executorService;
-    //    private final NetworkService networkService;
     private final NoteApplication app;
 
     FolderRepository() {

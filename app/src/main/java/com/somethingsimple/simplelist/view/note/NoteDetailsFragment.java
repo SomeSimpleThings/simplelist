@@ -22,18 +22,22 @@ import android.widget.EditText;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.somethingsimple.simplelist.R;
 import com.somethingsimple.simplelist.model.NotesViewModel;
+import com.somethingsimple.simplelist.swipeInteractions.SwipeCallback;
+import com.somethingsimple.simplelist.swipeInteractions.SwipeCallbackListener;
 import com.somethingsimple.simplelist.view.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NoteDetailsFragment extends Fragment {
+public class NoteDetailsFragment extends Fragment
+        implements SwipeCallbackListener {
 
     private NotesViewModel noteViewModel;
-    NotesAdapter adapter;
-    EditText toolbarEditText;
+    private NotesAdapter adapter;
+    private EditText toolbarEditText;
 
 
     public NoteDetailsFragment() {
@@ -72,7 +76,8 @@ public class NoteDetailsFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview_note);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeCallback(adapter));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
+                new SwipeCallback(this, adapter));
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
@@ -118,15 +123,21 @@ public class NoteDetailsFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_add_check:
-                //noteViewModel.addNoteCheckable();
                 adapter.addNoteCheckable(noteViewModel.getCurrentFolder().getId());
                 return true;
             case R.id.menu_item_add_text:
-                //noteViewModel.addNote();
                 adapter.addNote(noteViewModel.getCurrentFolder().getId());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onSwipe() {
+        Snackbar.make(getView(), R.string.folder_removed_message, Snackbar.LENGTH_LONG)
+                .setAction(R.string.undo, v ->
+                        adapter.undoDelete())
+                .show();
     }
 }

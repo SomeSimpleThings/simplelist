@@ -34,43 +34,4 @@
 
 </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <!--<EditText-->
-    <!--android:id="@+id/edit_note_title"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="85dp"-->
-    <!--android:layout_marginStart="8dp"-->
-    <!--android:layout_marginEnd="8dp"-->
-    <!--android:fontFamily="sans-serif-light"-->
-    <!--android:hint="@string/hint_title"-->
-    <!--android:nextFocusDown="@id/edit_note_text"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@+id/toolbar">-->
-
-    <!--<requestFocus/>-->
-    <!--</EditText>-->
-
-    <!--<EditText-->
-    <!--android:id="@+id/edit_note_text"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginStart="8dp"-->
-    <!--android:layout_marginTop="8dp"-->
-    <!--android:layout_marginEnd="8dp"-->
-    <!--android:layout_marginBottom="8dp"-->
-    <!--android:fontFamily="sans-serif-light"-->
-    <!--android:gravity="top|left"-->
-    <!--android:hint="@string/hint_note"-->
-    <!--android:inputType="textMultiLine"-->
-    <!--android:maxLines="15"-->
-    <!--android:padding="@dimen/small_padding"-->
-    <!--android:scrollbars="vertical"-->
-    <!--android:textSize="18sp"-->
-    <!--app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintHorizontal_bias="0.0"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@+id/edit_note_title"-->
-    <!--app:layout_constraintVertical_bias="0.0" />-->
-
 

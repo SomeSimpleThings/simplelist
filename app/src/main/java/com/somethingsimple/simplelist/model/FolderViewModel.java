@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
-import com.somethingsimple.simplelist.SingleLiveEvent;
+import com.somethingsimple.simplelist.swipeInteractions.SingleLiveEvent;
 import com.somethingsimple.simplelist.db.entity.Folder;
 
 import java.util.List;
@@ -44,10 +44,6 @@ public class FolderViewModel extends AndroidViewModel {
         return folderRepository.insert(folder);
     }
 
-    public long insert(String name) {
-        return folderRepository.insert(new Folder(name));
-    }
-
     public void update(Folder folder) {
         folderRepository.update(folder);
     }
@@ -74,18 +70,18 @@ public class FolderViewModel extends AndroidViewModel {
         return mOpenNoteEvent;
     }
 
-    public void addNote() {
+    public void addFolder() {
         currentFolder = new Folder("");
         currentFolder.setId(insert(currentFolder));
-        openNote(currentFolder);
+        mOpenNoteEvent.setValue(currentFolder);
     }
 
-    public void openNote(Folder folder) {
+    public void openFolder(Folder folder){
         currentFolder = folder;
-        mOpenNoteEvent.setValue(folder);
+        mOpenNoteEvent.setValue(currentFolder);
     }
 
-    public Folder getFolder() {
-        return currentFolder;
+    public void setFolder(Folder folder) {
+        currentFolder = folder;
     }
 }

@@ -15,13 +15,13 @@ import java.util.List;
 @Dao
 public interface FolderDao {
 
-    @Query("SELECT * FROM Folder")
+    @Query("SELECT * FROM Folder ORDER by position")
     LiveData<List<Folder>> getFolders();
 
     @Query("SELECT * FROM Folder WHERE id = :folderId")
     LiveData<Folder> getFolder(long folderId);
 
-    @Query("SELECT * FROM Folder  ORDER by id DESC")
+    @Query("SELECT * FROM Folder  ORDER by position DESC")
     LiveData<List<Folder>> getFoldersOrdered();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -32,9 +32,6 @@ public interface FolderDao {
 
     @Update
     void update(Folder folder);
-
-    @Query("UPDATE Folder SET folderName = :foldername WHERE id = :id; ")
-    void update(long id, String foldername);
 
     @Delete
     void delete(Folder folder);

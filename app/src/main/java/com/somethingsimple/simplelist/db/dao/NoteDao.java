@@ -15,11 +15,8 @@ import com.somethingsimple.simplelist.db.entity.Note;
 @Dao
 public interface NoteDao {
 
-    @Query("SELECT * FROM Note WHERE folderId = :folderId")
+    @Query("SELECT * FROM Note WHERE folderId = :folderId ORDER by position")
     LiveData<List<Note>> getNotes(long folderId);
-
-    @Query("SELECT * FROM Note WHERE folderId = :folderId ORDER by noteId DESC")
-    LiveData<List<Note>> getNotesOrdered(long folderId);
 
     @Query("SELECT * from Note WHERE noteId = :id")
     LiveData<Note> getNoteById(long id);

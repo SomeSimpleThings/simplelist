@@ -1,4 +1,4 @@
-package com.somethingsimple.simplelist;
+package com.somethingsimple.simplelist.swipeInteractions;
 
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;

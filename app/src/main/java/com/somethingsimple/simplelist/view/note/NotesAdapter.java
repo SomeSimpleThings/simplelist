@@ -8,16 +8,17 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.somethingsimple.simplelist.R;
 import com.somethingsimple.simplelist.databinding.NoteItemBinding;
 import com.somethingsimple.simplelist.db.entity.Note;
+import com.somethingsimple.simplelist.swipeInteractions.ItemTouchHelperActions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 
-public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder> {
+public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder>
+        implements ItemTouchHelperActions {
 
 
     private List<Note> mNotes;
@@ -71,34 +72,43 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     }
 
     public void addNoteCheckable(long folderId) {
-        mNotes.add(new Note(folderId, true));
+        mNotes.add(new Note(folderId, mNotes.size(), true));
         notifyDataSetChanged();
     }
 
     public void addNote(long folderId) {
-        mNotes.add(new Note(folderId, false));
+        mNotes.add(new Note(folderId, mNotes.size(), false));
         notifyDataSetChanged();
     }
 
-    public void deleteItem(int position) {
-        Note deleted = mNotes.get(position);
-        mDeletedNotes.add(deleted);
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(mNotes, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(mNotes, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        mDeletedNotes.add(mNotes.get(position));
         mDeletedPosition = position;
         mNotes.remove(position);
         notifyItemRemoved(position);
-       // showUndoSnackbar(position, deleted);
     }
 
-//    private void showUndoSnackbar(int position, Note deleted) {
-//        Snackbar snackbar = Snackbar.make(, "undo",
-//                Snackbar.LENGTH_LONG);
-//        snackbar.setAction("undo", v -> {
-//            mNotes.add(position, deleted);
-//            mDeletedNotes.remove(deleted);
-//            notifyItemInserted(position);
-//        });
-//        snackbar.show();
-//    }
+    public void undoDelete() {
+        mNotes.add(mDeletedPosition, mDeletedNotes.get(mDeletedNotes.size() - 1));
+        mDeletedNotes.remove(mDeletedNotes.size() - 1);
+        notifyItemInserted(mDeletedPosition);
+    }
 
     class NotesViewHolder extends RecyclerView.ViewHolder {
 

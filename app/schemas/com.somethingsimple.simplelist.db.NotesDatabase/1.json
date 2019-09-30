@@ -2,15 +2,21 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ce23eca0fc0de3763706e6724ab0aa4a",
+    "identityHash": "2dbcba572fdde8fcf6771191e9b78a9b",
     "entities": [
       {
         "tableName": "Note",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`noteId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `folderId` INTEGER NOT NULL, `noteText` TEXT, `checkable` INTEGER NOT NULL, `checked` INTEGER NOT NULL, FOREIGN KEY(`folderId`) REFERENCES `Folder`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`noteId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `position` INTEGER NOT NULL, `folderId` INTEGER NOT NULL, `noteText` TEXT, `checkable` INTEGER NOT NULL, `checked` INTEGER NOT NULL, FOREIGN KEY(`folderId`) REFERENCES `Folder`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "noteId",
             "columnName": "noteId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "position",
+            "columnName": "position",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -71,11 +77,17 @@
       },
       {
         "tableName": "Folder",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `folderName` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `position` INTEGER NOT NULL, `folderName` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "position",
+            "columnName": "position",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -99,7 +111,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ce23eca0fc0de3763706e6724ab0aa4a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2dbcba572fdde8fcf6771191e9b78a9b')"
     ]
   }
 }
