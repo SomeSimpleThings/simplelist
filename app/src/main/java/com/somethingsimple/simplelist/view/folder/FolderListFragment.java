@@ -35,7 +35,6 @@ public class FolderListFragment extends Fragment
 
     private FolderViewModel folderViewModel;
     private FolderListAdapter adapter;
-    private boolean ordered;
 
     public FolderListFragment() {
         // Required empty public constructor
@@ -56,8 +55,8 @@ public class FolderListFragment extends Fragment
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
 
         folderViewModel = MainActivity.obtainFolderViewModel(getActivity());
-        adapter = new FolderListAdapter(getContext(),folderViewModel);
-        folderViewModel.getFolders(ordered).observe(this, adapter::setFolders);
+        adapter = new FolderListAdapter(getContext(), folderViewModel);
+        folderViewModel.getFolders().observe(this, adapter::setFolders);
 
         setupRecyclerView(view);
         checkUpdateFolderName();
@@ -112,8 +111,6 @@ public class FolderListFragment extends Fragment
                 folderViewModel.deleteAll();
                 return true;
             case R.id.menu_sort:
-                ordered = !ordered;
-                folderViewModel.getFolders(ordered).observe(this, adapter::setFolders);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -121,9 +118,17 @@ public class FolderListFragment extends Fragment
 
     @Override
     public void onSwipe() {
-        Snackbar.make(getView(), R.string.folder_removed_message, Snackbar.LENGTH_LONG)
+        Snackbar.make(getView(), R.string.folder_removed_message, Snackbar.LENGTH_SHORT)
                 .setAction(R.string.undo, v ->
                         adapter.undoDelete())
+                .addCallback(new Snackbar.Callback() {
+                    @Override
+                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                        if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
+                            folderViewModel.delete(adapter.getDeletedFolder());
+                        }
+                    }
+                })
                 .show();
     }
 }

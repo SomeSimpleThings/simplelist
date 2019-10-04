@@ -1,6 +1,7 @@
 package com.somethingsimple.simplelist.view.folder;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -56,6 +57,10 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Fo
         mDeletedFolder = folders.get(position);
         folders.remove(position);
         notifyItemRemoved(position);
+    }
+
+    public Folder getDeletedFolder() {
+        return mDeletedFolder;
     }
 
     public void undoDelete() {

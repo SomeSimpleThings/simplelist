@@ -29,13 +29,9 @@ public class FolderViewModel extends AndroidViewModel {
         mediatorLiveData = new MediatorLiveData<>();
     }
 
-    public MediatorLiveData<List<Folder>> getFolders(boolean ordered) {
+    public MediatorLiveData<List<Folder>> getFolders() {
         mediatorLiveData.removeSource(liveData);
-        if (ordered) {
-            liveData = folderRepository.getAllFolders();
-        } else {
-            liveData = folderRepository.getAllFoldersReversed();
-        }
+        liveData = folderRepository.getAllFolders();
         mediatorLiveData.addSource(liveData, mediatorLiveData::setValue);
         return mediatorLiveData;
     }
@@ -76,7 +72,7 @@ public class FolderViewModel extends AndroidViewModel {
         mOpenNoteEvent.setValue(currentFolder);
     }
 
-    public void openFolder(Folder folder){
+    public void openFolder(Folder folder) {
         currentFolder = folder;
         mOpenNoteEvent.setValue(currentFolder);
     }
