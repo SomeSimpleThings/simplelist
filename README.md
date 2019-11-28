@@ -5,6 +5,7 @@ Simple project to learn about Android architecture components and some other
 * [Room Persistence Library](https://developer.android.com/topic/libraries/architecture/room)
 * [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
 * [View Model](https://developer.android.com/topic/libraries/architecture/viewmodel)
+* [Dagger](https://github.com/google/dagger)
 * [Navigation component](https://developer.android.com/guide/navigation/)
 * [RecyclerView](https://developer.android.com/reference/androidx/recyclerview/widget/RecyclerView.html) with [ListAdapter](https://developer.android.com/reference/android/support/v7/recyclerview/extensions/ListAdapter)
 * [Data binding](https://developer.android.com/topic/libraries/data-binding)
