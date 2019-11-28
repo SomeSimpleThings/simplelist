@@ -1,4 +1,4 @@
-package com.somethingsimple.simplelist.model;
+package com.somethingsimple.simplelist.view.folder;
 
 import android.app.Application;
 
@@ -7,10 +7,13 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
+import com.somethingsimple.simplelist.db.FolderRepository;
 import com.somethingsimple.simplelist.swipeInteractions.SingleLiveEvent;
 import com.somethingsimple.simplelist.db.entity.Folder;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class FolderViewModel extends AndroidViewModel {
 
@@ -23,9 +26,10 @@ public class FolderViewModel extends AndroidViewModel {
 
     private final MediatorLiveData<List<Folder>> mediatorLiveData;
 
-    public FolderViewModel(@NonNull Application application) {
+    @Inject
+    public FolderViewModel(@NonNull Application application, FolderRepository folderRepo) {
         super(application);
-        folderRepository = new FolderRepository();
+        folderRepository = folderRepo;
         mediatorLiveData = new MediatorLiveData<>();
     }
 

@@ -1,9 +1,10 @@
-package com.somethingsimple.simplelist.model;
+package com.somethingsimple.simplelist.view.note;
 
 import android.app.Application;
 
 import com.somethingsimple.simplelist.db.entity.Folder;
 import com.somethingsimple.simplelist.db.entity.Note;
+import com.somethingsimple.simplelist.db.NotesRepository;
 
 import java.util.List;
 
@@ -11,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
+
+import javax.inject.Inject;
 
 public class NotesViewModel extends AndroidViewModel {
 
@@ -20,9 +23,10 @@ public class NotesViewModel extends AndroidViewModel {
 
     private final MediatorLiveData<List<Note>> mediatorLiveData;
 
-    public NotesViewModel(@NonNull Application application) {
+    @Inject
+    public NotesViewModel(@NonNull Application application, NotesRepository notesRepository) {
         super(application);
-        notesRepo = new NotesRepository();
+        notesRepo = notesRepository;
         mediatorLiveData = new MediatorLiveData<>();
     }
 

@@ -1,14 +1,12 @@
 package com.somethingsimple.simplelist.view.folder;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.somethingsimple.simplelist.R;
 import com.somethingsimple.simplelist.databinding.RecyclerviewItemBinding;
 import com.somethingsimple.simplelist.db.entity.Folder;
-import com.somethingsimple.simplelist.model.FolderViewModel;
 import com.somethingsimple.simplelist.swipeInteractions.ItemTouchHelperActions;
 
 import androidx.annotation.NonNull;

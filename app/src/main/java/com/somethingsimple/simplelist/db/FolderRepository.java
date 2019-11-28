@@ -1,34 +1,30 @@
-package com.somethingsimple.simplelist.model;
+package com.somethingsimple.simplelist.db;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Transformations;
 
-import com.somethingsimple.simplelist.NoteApplication;
 import com.somethingsimple.simplelist.db.entity.Folder;
 import com.somethingsimple.simplelist.db.dao.FolderDao;
-import com.somethingsimple.simplelist.db.NotesDatabase;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import javax.inject.Inject;
+
 public class FolderRepository {
 
     private final FolderDao folderDao;
     private final ExecutorService executorService;
-    private final NoteApplication app;
 
-    FolderRepository() {
-        app = NoteApplication.getInstanced();
-        NotesDatabase dbNotes = app.getNotesDatabase();
-        folderDao = dbNotes.folderDao();
+    @Inject
+    public FolderRepository(FolderDao Dao) {
+        folderDao = Dao;
         executorService = Executors.newSingleThreadExecutor();
     }
 
-    LiveData<List<Folder>> getAllFolders() {
+    public LiveData<List<Folder>> getAllFolders() {
         return folderDao.getFolders();
     }
 
@@ -40,11 +36,11 @@ public class FolderRepository {
         return folderDao.getFolder(id);
     }
 
-    void insert(Folder... folders) {
+    public void insert(Folder... folders) {
         executorService.execute(() -> folderDao.insert(folders));
     }
 
-    long insert(Folder folder) {
+    public long insert(Folder folder) {
         long id = -1;
         Future<Long> future = executorService.submit(() -> folderDao.insert(folder));
         try {
@@ -55,19 +51,19 @@ public class FolderRepository {
         return id;
     }
 
-    void update(Folder folder) {
+    public void update(Folder folder) {
         executorService.execute(() -> folderDao.update(folder));
     }
 
-    void delete(Folder folder) {
+    public void delete(Folder folder) {
         executorService.execute(() -> folderDao.delete(folder));
     }
 
-    void delete(long folderId) {
+    public void delete(long folderId) {
         executorService.execute(() -> folderDao.delete(folderId));
     }
 
-    void deleteAll() {
+    public void deleteAll() {
         executorService.execute(folderDao::deleteAll);
     }
 

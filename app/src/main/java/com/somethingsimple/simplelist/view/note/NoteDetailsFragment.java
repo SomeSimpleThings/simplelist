@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,16 +25,19 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.somethingsimple.simplelist.R;
-import com.somethingsimple.simplelist.model.NotesViewModel;
 import com.somethingsimple.simplelist.swipeInteractions.SwipeCallback;
 import com.somethingsimple.simplelist.swipeInteractions.SwipeCallbackListener;
-import com.somethingsimple.simplelist.view.MainActivity;
+
+import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class NoteDetailsFragment extends Fragment
         implements SwipeCallbackListener {
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
     private NotesViewModel noteViewModel;
     private NotesAdapter adapter;
@@ -59,8 +63,8 @@ public class NoteDetailsFragment extends Fragment
 
         adapter = new NotesAdapter(getContext());
 
-        noteViewModel = MainActivity.obtainNoteViewModel(getActivity());
-        noteViewModel.getNotes().observe(this, adapter::setNotes);
+        noteViewModel = new ViewModelProvider(this, viewModelFactory).get(NotesViewModel.class);
+        noteViewModel.getNotes().observe(getViewLifecycleOwner(), adapter::setNotes);
 
         toolbarEditText = view.findViewById(R.id.edit_foldername);
         toolbarEditText.setText(noteViewModel.getCurrentFolder().getFolderName());

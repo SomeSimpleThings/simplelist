@@ -2,27 +2,30 @@ package com.somethingsimple.simplelist;
 
 import android.app.Application;
 
-import com.somethingsimple.simplelist.db.NotesDatabase;
+import com.somethingsimple.simplelist.di.component.DaggerAppComponent;
 
+import javax.inject.Inject;
 
-public class NoteApplication extends Application {
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasAndroidInjector;
 
-    private static NoteApplication instanced;
-    private NotesDatabase notesDatabase;
+public class NoteApplication extends Application implements HasAndroidInjector {
+
+    @Inject
+    DispatchingAndroidInjector<Object> dispatchingAndroidInjector;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        instanced = this;
-        notesDatabase = NotesDatabase.getDatabase(this);
+        DaggerAppComponent.builder()
+                .application(this)
+                .build()
+                .inject(this);
     }
 
-    public static NoteApplication getInstanced() {
-        return instanced;
+    @Override
+    public AndroidInjector<Object> androidInjector() {
+        return dispatchingAndroidInjector;
     }
-
-    public NotesDatabase getNotesDatabase() {
-        return notesDatabase;
-    }
-
 }

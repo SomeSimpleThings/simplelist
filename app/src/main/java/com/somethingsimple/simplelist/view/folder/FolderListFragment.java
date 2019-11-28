@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,16 +23,21 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.somethingsimple.simplelist.R;
-import com.somethingsimple.simplelist.model.FolderViewModel;
 import com.somethingsimple.simplelist.swipeInteractions.SwipeCallback;
 import com.somethingsimple.simplelist.swipeInteractions.SwipeCallbackListener;
-import com.somethingsimple.simplelist.view.MainActivity;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class FolderListFragment extends Fragment
         implements SwipeCallbackListener {
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
     private FolderViewModel folderViewModel;
     private FolderListAdapter adapter;
@@ -43,6 +49,7 @@ public class FolderListFragment extends Fragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AndroidSupportInjection.inject(this);
         setHasOptionsMenu(true);
     }
 
@@ -54,9 +61,9 @@ public class FolderListFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_folder_list, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
 
-        folderViewModel = MainActivity.obtainFolderViewModel(getActivity());
+        folderViewModel = new ViewModelProvider(this, viewModelFactory).get(FolderViewModel.class);
         adapter = new FolderListAdapter(getContext(), folderViewModel);
-        folderViewModel.getFolders().observe(this, adapter::setFolders);
+        folderViewModel.getFolders().observe(getViewLifecycleOwner(), adapter::setFolders);
 
         setupRecyclerView(view);
         checkUpdateFolderName();
