@@ -34,6 +34,5 @@ public interface AppComponent {
         AppComponent build();
     }
 
-
     void inject(NoteApplication noteApplication);
 }

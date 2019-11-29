@@ -1,7 +1,9 @@
 package com.somethingsimple.simplelist.view.note;
 
 import android.app.Application;
+import android.util.Log;
 
+import com.somethingsimple.simplelist.db.FolderRepository;
 import com.somethingsimple.simplelist.db.entity.Folder;
 import com.somethingsimple.simplelist.db.entity.Note;
 import com.somethingsimple.simplelist.db.NotesRepository;
@@ -18,21 +20,24 @@ import javax.inject.Inject;
 public class NotesViewModel extends AndroidViewModel {
 
     private final NotesRepository notesRepo;
+    private final FolderRepository folderRepository;
     private LiveData<List<Note>> liveData;
-    private Folder currentFolder;
 
     private final MediatorLiveData<List<Note>> mediatorLiveData;
 
     @Inject
-    public NotesViewModel(@NonNull Application application, NotesRepository notesRepository) {
+    public NotesViewModel(@NonNull Application application,
+                          NotesRepository notesRepository,
+                          FolderRepository folderRepo) {
         super(application);
         notesRepo = notesRepository;
+        folderRepository = folderRepo;
         mediatorLiveData = new MediatorLiveData<>();
     }
 
-    public MediatorLiveData<List<Note>> getNotes() {
+    public MediatorLiveData<List<Note>> getNotes(Long folderid) {
         mediatorLiveData.removeSource(liveData);
-        liveData = notesRepo.getAllNotes(getCurrentFolder().getId());
+        liveData = notesRepo.getAllNotes(folderid);
         mediatorLiveData.addSource(liveData, mediatorLiveData::setValue);
         return mediatorLiveData;
     }
@@ -43,6 +48,10 @@ public class NotesViewModel extends AndroidViewModel {
             notesToChange.get(i).setPosition(i);
         }
         notesRepo.insert(notesToChange.toArray(new Note[0]));
+    }
+
+    public void updateFolder(Folder folder){
+        folderRepository.update(folder);
     }
 
     public void delete(Note note) {
@@ -58,11 +67,7 @@ public class NotesViewModel extends AndroidViewModel {
         super.onCleared();
     }
 
-    public Folder getCurrentFolder() {
-        return currentFolder;
-    }
-
-    public void setCurrentFolder(Folder currentFolder) {
-        this.currentFolder = currentFolder;
+    public LiveData<Folder> getCurrentFolder(Long id) {
+        return folderRepository.getFolder(id);
     }
 }

@@ -32,7 +32,7 @@ public class FolderRepository {
         return folderDao.getFoldersOrdered();
     }
 
-    LiveData<Folder> getFolder(long id) {
+    public LiveData<Folder> getFolder(long id) {
         return folderDao.getFolder(id);
     }
 

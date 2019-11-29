@@ -1,6 +1,6 @@
 package com.somethingsimple.simplelist.di.builder;
 
-import com.somethingsimple.simplelist.view.BottomDrawerFragment;
+import com.somethingsimple.simplelist.view.bottomDrawer.BottomDrawerFragment;
 import com.somethingsimple.simplelist.view.folder.FolderListFragment;
 import com.somethingsimple.simplelist.view.note.NoteDetailsFragment;
 

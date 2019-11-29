@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -64,9 +65,14 @@ public class FolderListFragment extends Fragment
         folderViewModel = new ViewModelProvider(this, viewModelFactory).get(FolderViewModel.class);
         adapter = new FolderListAdapter(getContext(), folderViewModel);
         folderViewModel.getFolders().observe(getViewLifecycleOwner(), adapter::setFolders);
+        folderViewModel.getOpenNoteEvent().observe(getViewLifecycleOwner(), folder -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong("uid", folder.getId());
+            Navigation.findNavController(getActivity(), R.id.nav_host_fragment)
+                    .navigate(R.id.action_folderListFragment_to_noteDetailsFragment, bundle);
+        });
 
         setupRecyclerView(view);
-        checkUpdateFolderName();
         setupFab();
         return view;
     }
@@ -78,14 +84,6 @@ public class FolderListFragment extends Fragment
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
                 new SwipeCallback(this, adapter));
         itemTouchHelper.attachToRecyclerView(recyclerView);
-    }
-
-    private void checkUpdateFolderName() {
-        if (this.getArguments() != null) {
-            String foldername = this.getArguments().getString(
-                    getActivity().getString(R.string.foldername_key));
-            folderViewModel.update(foldername);
-        }
     }
 
     private void setupFab() {

@@ -22,7 +22,7 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Fo
     private List<Folder> folders;
     private int mDeletedPosition;
     private LayoutInflater mInflater;
-    private Folder mDeletedFolder;
+    private Folder currentFolder;
     private FolderViewModel mFolderViewModel;
 
     public interface FolderClickListener {
@@ -52,17 +52,17 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Fo
     @Override
     public void onItemDismiss(int position) {
         mDeletedPosition = position;
-        mDeletedFolder = folders.get(position);
+        currentFolder = folders.get(position);
         folders.remove(position);
         notifyItemRemoved(position);
     }
 
     public Folder getDeletedFolder() {
-        return mDeletedFolder;
+        return currentFolder;
     }
 
     public void undoDelete() {
-        folders.add(mDeletedPosition, mDeletedFolder);
+        folders.add(mDeletedPosition, currentFolder);
         notifyItemInserted(mDeletedPosition);
     }
 
@@ -110,5 +110,4 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Fo
             folderBinding = binding;
         }
     }
-
 }

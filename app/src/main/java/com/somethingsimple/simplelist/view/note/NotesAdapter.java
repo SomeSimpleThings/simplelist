@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.somethingsimple.simplelist.R;
 import com.somethingsimple.simplelist.databinding.NoteItemBinding;
+import com.somethingsimple.simplelist.db.entity.Folder;
 import com.somethingsimple.simplelist.db.entity.Note;
 import com.somethingsimple.simplelist.swipeInteractions.ItemTouchHelperActions;
 
@@ -17,11 +18,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder>
+public class NotesAdapter extends  RecyclerView.Adapter<NotesAdapter.NotesViewHolder>
         implements ItemTouchHelperActions {
 
 
     private List<Note> mNotes;
+    private Folder folder;
+
     private List<Note> mDeletedNotes;
     private int mDeletedPosition;
     private LayoutInflater mInflater;
@@ -118,5 +121,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
             super(binding.getRoot());
             noteBinding = binding;
         }
+    }
+
+    public Folder getFolder() {
+        return folder;
+    }
+
+    public void setFolder(Folder folder) {
+        this.folder = folder;
     }
 }

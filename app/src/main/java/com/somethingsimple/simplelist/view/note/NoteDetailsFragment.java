@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -25,10 +26,14 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.somethingsimple.simplelist.R;
+import com.somethingsimple.simplelist.db.entity.Folder;
 import com.somethingsimple.simplelist.swipeInteractions.SwipeCallback;
 import com.somethingsimple.simplelist.swipeInteractions.SwipeCallbackListener;
+import com.somethingsimple.simplelist.view.folder.FolderViewModel;
 
 import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,7 +48,6 @@ public class NoteDetailsFragment extends Fragment
     private NotesAdapter adapter;
     private EditText toolbarEditText;
 
-
     public NoteDetailsFragment() {
         // Required empty public constructor
     }
@@ -51,6 +55,7 @@ public class NoteDetailsFragment extends Fragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AndroidSupportInjection.inject(this);
         setHasOptionsMenu(true);
     }
 
@@ -64,10 +69,13 @@ public class NoteDetailsFragment extends Fragment
         adapter = new NotesAdapter(getContext());
 
         noteViewModel = new ViewModelProvider(this, viewModelFactory).get(NotesViewModel.class);
-        noteViewModel.getNotes().observe(getViewLifecycleOwner(), adapter::setNotes);
-
-        toolbarEditText = view.findViewById(R.id.edit_foldername);
-        toolbarEditText.setText(noteViewModel.getCurrentFolder().getFolderName());
+        long uid = this.getArguments().getLong("uid", 0);
+        noteViewModel.getNotes(uid).observe(getViewLifecycleOwner(), adapter::setNotes);
+        noteViewModel.getCurrentFolder(uid).observe(getViewLifecycleOwner(), folder -> {
+            toolbarEditText = view.findViewById(R.id.edit_foldername);
+            toolbarEditText.setText(folder.getFolderName());
+            adapter.setFolder(folder);
+        });
 
         setupToolbar(view);
         setupFab(view);
@@ -100,11 +108,10 @@ public class NoteDetailsFragment extends Fragment
 
     private void updateAndNavigateBack(View view) {
         noteViewModel.update(adapter.getNotes(), adapter.getDeletedNotes());
-        Bundle bundle = new Bundle();
-        String text = toolbarEditText.getText().toString();
-        bundle.putString(getActivity().getString(R.string.foldername_key), text);
+        adapter.getFolder().setFolderName(toolbarEditText.getText().toString());
+        noteViewModel.updateFolder(adapter.getFolder());
         Navigation.findNavController(view).navigate(
-                R.id.action_noteDetailsFragment_to_noteListFragment, bundle);
+                R.id.action_noteDetailsFragment_to_noteListFragment);
     }
 
     @Override
@@ -127,10 +134,10 @@ public class NoteDetailsFragment extends Fragment
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_add_check:
-                adapter.addNoteCheckable(noteViewModel.getCurrentFolder().getId());
+                adapter.addNoteCheckable(adapter.getFolder().getId());
                 return true;
             case R.id.menu_item_add_text:
-                adapter.addNote(noteViewModel.getCurrentFolder().getId());
+                adapter.addNote(adapter.getFolder().getId());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

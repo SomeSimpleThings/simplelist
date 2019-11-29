@@ -27,7 +27,8 @@ public class FolderViewModel extends AndroidViewModel {
     private final MediatorLiveData<List<Folder>> mediatorLiveData;
 
     @Inject
-    public FolderViewModel(@NonNull Application application, FolderRepository folderRepo) {
+    public FolderViewModel(@NonNull Application application,
+                           FolderRepository folderRepo) {
         super(application);
         folderRepository = folderRepo;
         mediatorLiveData = new MediatorLiveData<>();
@@ -46,11 +47,6 @@ public class FolderViewModel extends AndroidViewModel {
 
     public void update(Folder folder) {
         folderRepository.update(folder);
-    }
-
-    public void update(String foldername) {
-        currentFolder.setFolderName(foldername);
-        folderRepository.update(currentFolder);
     }
 
     public void delete(Folder folder) {
@@ -79,9 +75,5 @@ public class FolderViewModel extends AndroidViewModel {
     public void openFolder(Folder folder) {
         currentFolder = folder;
         mOpenNoteEvent.setValue(currentFolder);
-    }
-
-    public void setFolder(Folder folder) {
-        currentFolder = folder;
     }
 }
