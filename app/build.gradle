@@ -5,34 +5,30 @@ apply plugin: 'com.android.application'
 android {
 
     signingConfigs {
-//        config_debug {
-////            def KEYSTORE_FILE = rootProject.file("keystore.properties")
-////            def keystoreProperties = new Properties()
-////            keystoreProperties.load(new FileInputStream(KEYSTORE_FILE))
-////            keyAlias keystoreProperties['keyAlias']
-////            keyPassword keystoreProperties['keyPassword']
-////            storeFile file(keystoreProperties['storeFile'])
-////            storePassword keystoreProperties['storePassword']
-//            keyAlias KEY_ALIAS
-//            keyPassword KEY_PASSSWORD
-//            storeFile KEYSTORE_FILE
-//            storePassword KEYSTORE_PASSWORD
-//        }
         debug {
-            file("keystore.properties").with { propFile ->
-                if (propFile.canRead()) {
-                    def properties = new Properties()
-                    properties.load(new FileInputStream(propFile))
-
-                    storeFile file(properties['keystorePath'])
-                    storePassword properties['keystorePassword']
-                    keyAlias properties['keyAlias']
-                    keyPassword properties['keyPassword']
-                } else {
-                    println 'Unable to read signing.properties'
-                }
-            }
+            def KEYSTORE_FILE = rootProject.file("keystore.properties")
+            def keystoreProperties = new Properties()
+            keystoreProperties.load(new FileInputStream(KEYSTORE_FILE))
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
         }
+//        debug {
+//            file("keystore.properties").with { propFile ->
+//                if (propFile.canRead()) {
+//                    def properties = new Properties()
+//                    properties.load(new FileInputStream(propFile))
+//
+//                    storeFile file(properties['keystorePath'])
+//                    storePassword properties['keystorePassword']
+//                    keyAlias properties['keyAlias']
+//                    keyPassword properties['keyPassword']
+//                } else {
+//                    println 'Unable to read signing.properties'
+//                }
+//            }
+//        }
     }
     compileSdkVersion 29
     defaultConfig {

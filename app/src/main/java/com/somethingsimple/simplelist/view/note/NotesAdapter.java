@@ -122,12 +122,4 @@ public class NotesAdapter extends  RecyclerView.Adapter<NotesAdapter.NotesViewHo
             noteBinding = binding;
         }
     }
-
-    public Folder getFolder() {
-        return folder;
-    }
-
-    public void setFolder(Folder folder) {
-        this.folder = folder;
-    }
 }

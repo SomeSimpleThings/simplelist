@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     BottomDrawerFragment bottomDrawerFragment;
 
-    private NotesViewModel mNoteViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         AndroidInjection.inject(this);
         setContentView(R.layout.activity_main);
         setupBottomBar();
-
     }
 
     private void setupBottomBar() {

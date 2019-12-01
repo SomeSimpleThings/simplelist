@@ -6,8 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -20,16 +20,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.somethingsimple.simplelist.R;
-import com.somethingsimple.simplelist.db.entity.Folder;
+import com.somethingsimple.simplelist.databinding.FragmentNoteDetailsBinding;
 import com.somethingsimple.simplelist.swipeInteractions.SwipeCallback;
 import com.somethingsimple.simplelist.swipeInteractions.SwipeCallbackListener;
-import com.somethingsimple.simplelist.view.folder.FolderViewModel;
 
 import javax.inject.Inject;
 
@@ -46,7 +44,7 @@ public class NoteDetailsFragment extends Fragment
 
     private NotesViewModel noteViewModel;
     private NotesAdapter adapter;
-    private EditText toolbarEditText;
+    private FragmentNoteDetailsBinding binding;
 
     public NoteDetailsFragment() {
         // Required empty public constructor
@@ -62,55 +60,49 @@ public class NoteDetailsFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_note_details,
-                container, false);
-
+        binding = DataBindingUtil.inflate(inflater,
+                R.layout.fragment_note_details,
+                container,
+                false);
 
         adapter = new NotesAdapter(getContext());
-
         noteViewModel = new ViewModelProvider(this, viewModelFactory).get(NotesViewModel.class);
         long uid = this.getArguments().getLong("uid", 0);
         noteViewModel.getNotes(uid).observe(getViewLifecycleOwner(), adapter::setNotes);
-        noteViewModel.getCurrentFolder(uid).observe(getViewLifecycleOwner(), folder -> {
-            toolbarEditText = view.findViewById(R.id.edit_foldername);
-            toolbarEditText.setText(folder.getFolderName());
-            adapter.setFolder(folder);
-        });
+        noteViewModel.getCurrentFolder(uid)
+                .observe(getViewLifecycleOwner(), binding::setFolder);
+        setupToolbar(binding.getRoot());
+        setupFab();
+        setupRecyclerView(binding.getRoot().findViewById(R.id.recyclerview_note));
 
-        setupToolbar(view);
-        setupFab(view);
-        setupRecyclerView(view);
-
-        return view;
+        return binding.getRoot();
     }
 
-    private void setupRecyclerView(View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerview_note);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
+    private void setupRecyclerView(RecyclerView view) {
+        view.setLayoutManager(new LinearLayoutManager(getContext()));
+        view.setAdapter(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
                 new SwipeCallback(this, adapter));
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        itemTouchHelper.attachToRecyclerView(view);
     }
 
-    private void setupFab(View view) {
+    private void setupFab() {
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setImageResource(R.drawable.ic_done_black_24dp);
-        fab.setOnClickListener(v -> updateAndNavigateBack(view));
+        fab.setOnClickListener(v -> updateAndNavigateBack());
     }
 
 
     private void setupToolbar(View view) {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-        toolbar.setNavigationOnClickListener(v -> updateAndNavigateBack(view));
+        toolbar.setNavigationOnClickListener(v -> updateAndNavigateBack());
     }
 
-    private void updateAndNavigateBack(View view) {
+    private void updateAndNavigateBack() {
         noteViewModel.update(adapter.getNotes(), adapter.getDeletedNotes());
-        adapter.getFolder().setFolderName(toolbarEditText.getText().toString());
-        noteViewModel.updateFolder(adapter.getFolder());
-        Navigation.findNavController(view).navigate(
+        noteViewModel.updateFolder(binding.getFolder());
+        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(
                 R.id.action_noteDetailsFragment_to_noteListFragment);
     }
 
@@ -134,10 +126,10 @@ public class NoteDetailsFragment extends Fragment
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_add_check:
-                adapter.addNoteCheckable(adapter.getFolder().getId());
+                adapter.addNoteCheckable(binding.getFolder().getId());
                 return true;
             case R.id.menu_item_add_text:
-                adapter.addNote(adapter.getFolder().getId());
+                adapter.addNote(binding.getFolder().getId());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -146,7 +138,7 @@ public class NoteDetailsFragment extends Fragment
 
     @Override
     public void onSwipe() {
-        Snackbar.make(getView(), R.string.folder_removed_message, Snackbar.LENGTH_LONG)
+        Snackbar.make(binding.getRoot(), R.string.folder_removed_message, Snackbar.LENGTH_LONG)
                 .setAction(R.string.undo, v ->
                         adapter.undoDelete())
                 .show();
