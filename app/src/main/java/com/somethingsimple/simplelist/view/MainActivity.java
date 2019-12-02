@@ -2,8 +2,8 @@ package com.somethingsimple.simplelist.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,8 +11,7 @@ import android.view.MenuItem;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.somethingsimple.simplelist.R;
 import com.somethingsimple.simplelist.view.bottomDrawer.BottomDrawerFragment;
-import com.somethingsimple.simplelist.view.folder.FolderViewModel;
-import com.somethingsimple.simplelist.view.note.NotesViewModel;
+import com.somethingsimple.simplelist.view.settings.SettingsActivity;
 
 import javax.inject.Inject;
 

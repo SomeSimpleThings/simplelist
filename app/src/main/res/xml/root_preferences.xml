@@ -1,0 +1,50 @@
+<!--
+  ~ Copyright 2018 The app Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="Appearence">
+        <SwitchPreferenceCompat
+            app:key="sync"
+            app:summary="@string/swith_dark_summary"
+            app:title="@string/switch_dark_title" />
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Sync settings">
+
+        <SwitchPreference
+            app:defaultValue="false"
+            app:key="switch_sync"
+            app:title="Sync with google drive" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="About">
+        <PreferenceScreen
+            android:key="developer"
+            android:summary="Makesomethingsimple inc"
+            android:title="Developer" />
+
+        <PreferenceScreen
+            android:key="github_link"
+            android:summary="https://github.com/SomeSimpleThings/simplelist"
+            android:title="Github" />
+
+        <PreferenceScreen
+            android:key="version"
+            android:summary="1.0"
+            android:title="Version" />
+    </PreferenceCategory>
+</PreferenceScreen>

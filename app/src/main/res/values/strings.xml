@@ -25,4 +25,8 @@
     <string name="menu_item_smth">Something</string>
     <string name="menu_sort">Sort</string>
     <string name="foldername_key">folder_name</string>
+    <string name="swith_dark_summary">turns on Dark theme</string>
+    <string name="switch_dark_title">Dark theme</string>
+    <string name="title_activity_settings">Settings</string>
+
 </resources>

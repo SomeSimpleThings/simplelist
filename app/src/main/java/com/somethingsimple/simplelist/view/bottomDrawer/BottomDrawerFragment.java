@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -31,6 +32,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.somethingsimple.simplelist.R;
 import com.somethingsimple.simplelist.databinding.DrawerBottomLayoutBinding;
+import com.somethingsimple.simplelist.view.settings.SettingsActivity;
 
 import javax.inject.Inject;
 
@@ -104,8 +106,8 @@ public class BottomDrawerFragment extends BottomSheetDialogFragment
                     }
                     return true;
                 case R.id.settings_menu_drawer:
-                    Toast.makeText(getContext(), "Not yet implemented",
-                            Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), SettingsActivity.class);
+                    startActivity(intent);
                     return true;
                 default:
                     return true;

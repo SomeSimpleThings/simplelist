@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 
 
-
 android {
 
     signingConfigs {
@@ -14,21 +13,6 @@ android {
             storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
         }
-//        debug {
-//            file("keystore.properties").with { propFile ->
-//                if (propFile.canRead()) {
-//                    def properties = new Properties()
-//                    properties.load(new FileInputStream(propFile))
-//
-//                    storeFile file(properties['keystorePath'])
-//                    storePassword properties['keystorePassword']
-//                    keyAlias properties['keyAlias']
-//                    keyPassword properties['keyPassword']
-//                } else {
-//                    println 'Unable to read signing.properties'
-//                }
-//            }
-//        }
     }
     compileSdkVersion 29
     defaultConfig {
@@ -75,9 +59,12 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-rc02'
-    implementation 'com.google.android.material:material:1.0.0'
     implementation "androidx.navigation:navigation-fragment:2.2.0-rc02"
     implementation "androidx.navigation:navigation-ui:2.2.0-rc02"
+    implementation 'androidx.preference:preference:1.1.0'
+
+    implementation 'com.google.android.material:material:1.0.0'
+
     //room
     implementation 'androidx.room:room-runtime:2.2.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
