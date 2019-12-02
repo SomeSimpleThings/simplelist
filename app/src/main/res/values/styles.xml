@@ -1,11 +1,41 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimaryDark</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/m_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/m_colorPrimaryDark</item>
+        <item name="colorAccent">@color/m_colorAccent</item>
+        <item name="android:label">@color/m_buttonLabel</item>
+        <item name="android:textColorPrimary">@color/m_primary_text</item>
+        <item name="android:textColorSecondary">@color/m_secondary_text</item>
+        <item name="icon">@color/m_icons</item>
+        <item name="divider">@color/m_divider</item>
+        <item name="colorPrimaryAttr">@color/m_colorPrimary</item>
+        <item name="colorPrimaryDarkAttr">@color/m_colorPrimaryDark</item>
+        <item name="textColorPrimaryAttr">@color/m_primary_text</item>
+        <!--        <item name="wBackground"-->
+        <item name="navBarColor">@color/m_colorPrimaryDark</item>
+        <item name="accentColorAttr">@color/m_colorAccent</item>
+    </style>
+
+    <style name="AppLightTheme" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/l_primary</item>
+        <item name="colorPrimaryDark">@color/l_primary_dark</item>
+        <item name="colorAccent">@color/l_accent</item>
+        <item name="android:label">@color/m_buttonLabel</item>
+        <item name="android:textColorPrimary">@color/l_primary_text</item>
+        <item name="android:textColorSecondary">@color/l_secondary_text</item>
+        <item name="icon">@color/l_icons</item>
+        <item name="divider">@color/l_divider</item>
+
+        <item name="colorPrimaryAttr">@color/l_primary</item>
+        <item name="colorPrimaryDarkAttr">@color/l_primary_dark</item>
+        <item name="textColorPrimaryAttr">@color/l_primary_text</item>
+        <!--        <item name="wBackground"-->
+        <item name="navBarColor">@color/m_colorPrimaryDark</item>
+        <item name="accentColorAttr">@color/l_accent</item>
     </style>
 
     <style name="folder_title">
