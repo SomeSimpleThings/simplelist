@@ -26,9 +26,14 @@ public class Folder {
     private int position;
 
     @ColumnInfo
-    @SerializedName("folder_text")
+    @SerializedName("folder_name")
     @Expose
     private String folderName;
+
+    @ColumnInfo
+    @SerializedName("folder_text")
+    @Expose
+    private String folderText;
 
     public Folder(String folderName) {
         this.folderName = folderName;
@@ -58,6 +63,14 @@ public class Folder {
         this.folderName = folderName;
     }
 
+    public String getFolderText() {
+        return folderText;
+    }
+
+    public void setFolderText(String folderText) {
+        this.folderText = folderText;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,11 +78,12 @@ public class Folder {
         Folder folder = (Folder) o;
         return id == folder.id &&
                 position == folder.position &&
-                Objects.equals(folderName, folder.folderName);
+                Objects.equals(folderName, folder.folderName) &&
+                Objects.equals(folderText, folder.folderText);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, position, folderName);
+        return Objects.hash(id, position, folderName, folderText);
     }
 }

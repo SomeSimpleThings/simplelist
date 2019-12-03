@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.somethingsimple.simplelist.db.entity.Folder;
@@ -13,32 +14,34 @@ import com.somethingsimple.simplelist.db.entity.Folder;
 import java.util.List;
 
 @Dao
-public interface FolderDao {
+public abstract class FolderDao implements BaseDao<Folder> {
 
     @Query("SELECT * FROM Folder ORDER by position")
-    LiveData<List<Folder>> getFolders();
+    public abstract LiveData<List<Folder>> getFolders();
 
     @Query("SELECT * FROM Folder WHERE id = :folderId")
-    LiveData<Folder> getFolder(long folderId);
+    public abstract LiveData<Folder> getFolder(long folderId);
 
     @Query("SELECT * FROM Folder  ORDER by position DESC")
-    LiveData<List<Folder>> getFoldersOrdered();
+    public abstract LiveData<List<Folder>> getFoldersOrdered();
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Folder... folders);
+    @Query("SELECT noteText FROM note WHERE folderId = :folderId LIMIT 4")
+    public abstract List<String> selectNames(long folderId);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long insert(Folder folder);
-
-    @Update
-    void update(Folder folder);
-
-    @Delete
-    void delete(Folder folder);
+    @Transaction
+    public void updateWithNoteText(Folder folder) {
+        List<String> names = selectNames(folder.getId());
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String name : names) {
+            stringBuilder.append(name).append("\n");
+        }
+        folder.setFolderText(stringBuilder.toString());
+        update(folder);
+    }
 
     @Query("DELETE from Folder WHERE id = :folderId")
-    void delete(long folderId);
+    public abstract void delete(long folderId);
 
     @Query("DELETE FROM Folder")
-    void deleteAll();
+    public abstract void deleteAll();
 }

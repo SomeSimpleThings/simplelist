@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2dbcba572fdde8fcf6771191e9b78a9b",
+    "identityHash": "c97bf4c0d6a5772737f9ea5a5da607ef",
     "entities": [
       {
         "tableName": "Note",
@@ -77,7 +77,7 @@
       },
       {
         "tableName": "Folder",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `position` INTEGER NOT NULL, `folderName` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `position` INTEGER NOT NULL, `folderName` TEXT, `folderText` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -96,6 +96,12 @@
             "columnName": "folderName",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "folderText",
+            "columnName": "folderText",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -111,7 +117,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2dbcba572fdde8fcf6771191e9b78a9b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c97bf4c0d6a5772737f9ea5a5da607ef')"
     ]
   }
 }

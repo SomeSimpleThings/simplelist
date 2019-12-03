@@ -50,7 +50,7 @@ public class NotesViewModel extends AndroidViewModel {
         notesRepo.insert(notesToChange.toArray(new Note[0]));
     }
 
-    public void updateFolder(Folder folder){
+    public void updateFolder(Folder folder) {
         folderRepository.update(folder);
     }
 

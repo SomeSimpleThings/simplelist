@@ -52,7 +52,7 @@ public class FolderRepository {
     }
 
     public void update(Folder folder) {
-        executorService.execute(() -> folderDao.update(folder));
+        executorService.execute(() -> folderDao.updateWithNoteText(folder));
     }
 
     public void delete(Folder folder) {

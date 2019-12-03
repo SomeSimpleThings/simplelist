@@ -13,25 +13,13 @@ import androidx.room.Update;
 import com.somethingsimple.simplelist.db.entity.Note;
 
 @Dao
-public interface NoteDao {
+public interface NoteDao extends BaseDao<Note> {
 
     @Query("SELECT * FROM Note WHERE folderId = :folderId ORDER by position")
     LiveData<List<Note>> getNotes(long folderId);
 
     @Query("SELECT * from Note WHERE noteId = :id")
     LiveData<Note> getNoteById(long id);
-
-//    @Query("SELECT * from Note WHERE folderId = :id")
-//    LiveData<List<Note>> getNoteByFolderId(long id);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Note... note);
-
-    @Update
-    void update(Note... note);
-
-    @Delete
-    void delete(Note... note);
 
     @Query("DELETE from Note WHERE noteId = :noteId")
     void delete(long noteId);

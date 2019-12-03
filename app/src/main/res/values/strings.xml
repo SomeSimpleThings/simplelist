@@ -13,8 +13,6 @@
     <string name="google_ps_error">Google Play Services error.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="anonymous">Anonymous</string>
     <string name="folder_removed_message">Note removed</string>
     <string name="undo">Cancel</string>
     <string name="bottom_sheet_name">Name</string>
