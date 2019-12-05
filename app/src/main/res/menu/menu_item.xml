@@ -5,15 +5,15 @@
     <item
         android:id="@+id/menu_item_add_check"
         android:title="@string/menu_item_smth"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:orderInCategory="1"
-        android:icon="@drawable/ic_check_box_black_24dp"
+        android:icon="@drawable/ic_check_box_24dp"
         />
     <item
         android:id="@+id/menu_item_add_text"
         android:title="@string/menu_item_smth"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:orderInCategory="2"
-        android:icon="@drawable/ic_text_fields_black_24dp"
+        android:icon="@drawable/ic_text_fields_24dp"
         />
 </menu>

@@ -58,7 +58,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="24dp"
-            android:background="@drawable/ic_account_circle_black_24dp"
+            android:background="@drawable/ic_account_circle_24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textUsername"
             app:userPhotoUrl="@{user.photoUrl}" />
@@ -81,12 +81,13 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/ic_close_black_24dp"
+            android:background="@drawable/ic_close_24dp"
             android:onClick="@{(view) -> handler.dismiss()}"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/textEmail"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textUsername" />
+            app:layout_constraintTop_toTopOf="@+id/textUsername"
+            android:contentDescription="@string/user_picture" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

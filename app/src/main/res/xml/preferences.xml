@@ -19,9 +19,9 @@
 
     <PreferenceCategory android:title="Appearence">
         <SwitchPreferenceCompat
-            app:key="sync"
-            app:summary="@string/swith_dark_summary"
-            app:title="@string/switch_dark_title" />
+            app:key="@string/pref_dark_theme"
+            app:summary="@string/prefs_swith_dark_summary"
+            app:title="@string/prefs_switch_dark_title" />
 
     </PreferenceCategory>
     <PreferenceCategory android:title="Sync settings">
@@ -29,22 +29,22 @@
         <SwitchPreference
             app:defaultValue="false"
             app:key="switch_sync"
-            app:title="Sync with google drive" />
+            app:title="@string/prefs_gdrive_sync" />
     </PreferenceCategory>
     <PreferenceCategory android:title="About">
         <PreferenceScreen
             android:key="developer"
-            android:summary="Makesomethingsimple inc"
-            android:title="Developer" />
+            android:summary="@string/prefs_developer"
+            android:title="@string/prefs_developer_title" />
 
         <PreferenceScreen
             android:key="github_link"
-            android:summary="https://github.com/SomeSimpleThings/simplelist"
-            android:title="Github" />
+            android:summary="@string/prefs_ghub_link"
+            android:title="@string/prefs_ghub" />
 
         <PreferenceScreen
             android:key="version"
             android:summary="1.0"
-            android:title="Version" />
+            android:title="@string/prefs_version_title" />
     </PreferenceCategory>
 </PreferenceScreen>

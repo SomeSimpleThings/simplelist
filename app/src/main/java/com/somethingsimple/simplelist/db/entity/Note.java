@@ -4,19 +4,17 @@ package com.somethingsimple.simplelist.db.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Ignore;
-import androidx.room.Index;
-import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
@@ -118,10 +116,6 @@ public class Note implements Parcelable {
         return folderId;
     }
 
-    public void setFolderId(long folderId) {
-        this.folderId = folderId;
-    }
-
     public int getPosition() {
         return position;
     }
@@ -140,10 +134,6 @@ public class Note implements Parcelable {
 
     public boolean isCheckable() {
         return checkable;
-    }
-
-    public void setCheckable(boolean checkable) {
-        this.checkable = checkable;
     }
 
     public boolean isChecked() {

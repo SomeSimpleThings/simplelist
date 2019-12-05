@@ -1,15 +1,8 @@
 package com.somethingsimple.simplelist.view;
 
-import android.annotation.SuppressLint;
-import android.app.Application;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.VisibleForTesting;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.somethingsimple.simplelist.view.folder.FolderViewModel;
-import com.somethingsimple.simplelist.view.note.NotesViewModel;
 
 import java.util.Map;
 

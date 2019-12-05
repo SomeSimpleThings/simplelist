@@ -2,7 +2,6 @@ package com.somethingsimple.simplelist;
 
 import android.app.Application;
 
-
 import com.somethingsimple.simplelist.di.component.DaggerAppComponent;
 
 import javax.inject.Inject;

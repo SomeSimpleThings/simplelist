@@ -6,4 +6,6 @@
     <attr name="windowBackgroundAttr" format="color"/>
     <attr name="navBarColor" format="color"/>
     <attr name="accentColorAttr" format="color"/>
+    <attr name="iconColor" format="color"/>
+
 </resources>

@@ -2,6 +2,12 @@ package com.somethingsimple.simplelist.view.note;
 
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,13 +19,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -39,6 +38,7 @@ import dagger.android.support.AndroidSupportInjection;
 public class NoteDetailsFragment extends Fragment
         implements SwipeCallbackListener {
 
+    private static final String KEY = "uid";
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
@@ -67,7 +67,7 @@ public class NoteDetailsFragment extends Fragment
 
         adapter = new NotesAdapter(getContext());
         noteViewModel = new ViewModelProvider(this, viewModelFactory).get(NotesViewModel.class);
-        long uid = this.getArguments().getLong("uid", 0);
+        long uid = this.getArguments().getLong(KEY, 0);
         noteViewModel.getNotes(uid).observe(getViewLifecycleOwner(), adapter::setNotes);
         noteViewModel.getCurrentFolder(uid)
                 .observe(getViewLifecycleOwner(), binding::setFolder);
@@ -88,14 +88,14 @@ public class NoteDetailsFragment extends Fragment
 
     private void setupFab() {
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
-        fab.setImageResource(R.drawable.ic_done_black_24dp);
+        fab.setImageResource(R.drawable.ic_done_24dp);
         fab.setOnClickListener(v -> updateAndNavigateBack());
     }
 
 
     private void setupToolbar(View view) {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp);
         toolbar.setNavigationOnClickListener(v -> updateAndNavigateBack());
     }
 

@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -30,13 +29,13 @@
             android:layout_gravity="bottom"
             app:fabAlignmentMode="center"
             app:hideOnScroll="true"
-            app:navigationIcon="@drawable/ic_menu_black_24dp" />
+            app:navigationIcon="@drawable/ic_menu_24dp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_black_24dp"
+            android:src="@drawable/ic_add_24dp"
             app:backgroundTint="?attr/accentColorAttr"
             app:layout_anchor="@id/bar" />
 

@@ -1,19 +1,18 @@
 package com.somethingsimple.simplelist.view.note;
 
 import android.app.Application;
-import android.util.Log;
-
-import com.somethingsimple.simplelist.db.FolderRepository;
-import com.somethingsimple.simplelist.db.entity.Folder;
-import com.somethingsimple.simplelist.db.entity.Note;
-import com.somethingsimple.simplelist.db.NotesRepository;
-
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
+
+import com.somethingsimple.simplelist.db.FolderRepository;
+import com.somethingsimple.simplelist.db.NotesRepository;
+import com.somethingsimple.simplelist.db.entity.Folder;
+import com.somethingsimple.simplelist.db.entity.Note;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -60,11 +59,6 @@ public class NotesViewModel extends AndroidViewModel {
 
     public void deleteAll() {
         notesRepo.deleteAll();
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
     }
 
     public LiveData<Folder> getCurrentFolder(Long id) {

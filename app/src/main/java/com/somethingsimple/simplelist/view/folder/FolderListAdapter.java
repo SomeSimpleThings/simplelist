@@ -4,14 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.somethingsimple.simplelist.R;
 import com.somethingsimple.simplelist.databinding.RecyclerviewItemBinding;
 import com.somethingsimple.simplelist.db.entity.Folder;
 import com.somethingsimple.simplelist.swipeInteractions.ItemTouchHelperActions;
-
-import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Collections;
 import java.util.List;
@@ -103,7 +103,7 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Fo
 
     class FolderViewHolder extends RecyclerView.ViewHolder {
 
-        private RecyclerviewItemBinding folderBinding;
+        private final RecyclerviewItemBinding folderBinding;
 
         public FolderViewHolder(RecyclerviewItemBinding binding) {
             super(binding.getRoot());

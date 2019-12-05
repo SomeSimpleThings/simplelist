@@ -1,6 +1,9 @@
 package com.somethingsimple.simplelist.di.module;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+
+import androidx.preference.PreferenceManager;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -24,6 +27,11 @@ public class AppModule {
                 .requestIdToken(application.getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
+    }
+
+    @Provides
+    SharedPreferences providePreferences(Application application) {
+        return PreferenceManager.getDefaultSharedPreferences(application);
     }
 
     @Provides

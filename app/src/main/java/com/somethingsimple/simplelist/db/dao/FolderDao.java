@@ -2,12 +2,8 @@ package com.somethingsimple.simplelist.db.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
-import androidx.room.Update;
 
 import com.somethingsimple.simplelist.db.entity.Folder;
 
@@ -22,8 +18,8 @@ public abstract class FolderDao implements BaseDao<Folder> {
     @Query("SELECT * FROM Folder WHERE id = :folderId")
     public abstract LiveData<Folder> getFolder(long folderId);
 
-    @Query("SELECT * FROM Folder  ORDER by position DESC")
-    public abstract LiveData<List<Folder>> getFoldersOrdered();
+//    @Query("SELECT * FROM Folder  ORDER by position DESC")
+//    public abstract LiveData<List<Folder>> getFoldersOrdered();
 
     @Query("SELECT noteText FROM note WHERE folderId = :folderId LIMIT 4")
     public abstract List<String> selectNames(long folderId);

@@ -2,6 +2,12 @@ package com.somethingsimple.simplelist.view.folder;
 
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,13 +18,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -88,7 +87,7 @@ public class FolderListFragment extends Fragment
 
     private void setupFab() {
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
-        fab.setImageResource(R.drawable.ic_add_black_24dp);
+        fab.setImageResource(R.drawable.ic_add_24dp);
         fab.setOnClickListener(v -> folderViewModel.addFolder());
         fab.show();
     }
@@ -104,21 +103,14 @@ public class FolderListFragment extends Fragment
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_list, menu);
         BottomAppBar bar = getActivity().findViewById(R.id.bar);
-        bar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
+        bar.setNavigationIcon(R.drawable.ic_menu_24dp);
         bar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
         bar.setHideOnScroll(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_delete_all:
-                folderViewModel.deleteAll();
-                return true;
-            case R.id.menu_sort:
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

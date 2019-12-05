@@ -1,19 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/menu_delete_all"
-        android:title="@string/menu_delete_all"
-        app:showAsAction="always"
-        android:orderInCategory="1"
-        android:icon="@drawable/ic_delete_forever_black_24dp"
-        />
+<menu>
 
-    <item
-        android:id="@+id/menu_sort"
-        android:title="@string/menu_sort"
-        app:showAsAction="always"
-        android:orderInCategory="2"
-        android:icon="@drawable/ic_sort_black_24dp"
-        />
 </menu>

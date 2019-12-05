@@ -6,6 +6,8 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SingleLiveEvent<T> extends MutableLiveData<T> {
@@ -13,10 +15,9 @@ public class SingleLiveEvent<T> extends MutableLiveData<T> {
     private final AtomicBoolean mPending = new AtomicBoolean(false);
 
     @MainThread
-    public void observe(LifecycleOwner owner, final Observer<? super T> observer) {
+    public void observe(@NotNull LifecycleOwner owner, @NotNull final Observer<? super T> observer) {
 
-        if (hasActiveObservers()) {
-        }
+        hasActiveObservers();
 
         // Observe the internal MutableLiveData
         super.observe(owner, t -> {

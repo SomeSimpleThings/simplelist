@@ -2,8 +2,8 @@ package com.somethingsimple.simplelist.db;
 
 import androidx.lifecycle.LiveData;
 
-import com.somethingsimple.simplelist.db.entity.Folder;
 import com.somethingsimple.simplelist.db.dao.FolderDao;
+import com.somethingsimple.simplelist.db.entity.Folder;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -26,10 +26,6 @@ public class FolderRepository {
 
     public LiveData<List<Folder>> getAllFolders() {
         return folderDao.getFolders();
-    }
-
-    LiveData<List<Folder>> getAllFoldersReversed() {
-        return folderDao.getFoldersOrdered();
     }
 
     public LiveData<Folder> getFolder(long id) {

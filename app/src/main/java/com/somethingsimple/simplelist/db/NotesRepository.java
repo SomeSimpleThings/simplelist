@@ -1,13 +1,13 @@
 package com.somethingsimple.simplelist.db;
 
-import com.somethingsimple.simplelist.db.entity.Note;
+import androidx.lifecycle.LiveData;
+
 import com.somethingsimple.simplelist.db.dao.NoteDao;
+import com.somethingsimple.simplelist.db.entity.Note;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import androidx.lifecycle.LiveData;
 
 import javax.inject.Inject;
 

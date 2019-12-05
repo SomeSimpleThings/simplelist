@@ -1,30 +1,28 @@
 <resources>
     <string name="app_name">Simple list</string>
-    <string name="dbname">notesDB</string>
-    <string name="hint_note">Note...</string>
-    <string name="button_save">Save</string>
-    <string name="empty_not_saved">Empty</string>
-    <string name="button_cancel">Cancel</string>
-    <string name="button_delete">Delete</string>
-    <string name="menu_delete_all">Delete all</string>
+
     <string name="sign_out">Sign out</string>
     <string name="sign_in">Sign in</string>
-    <string name="sign_in_message">Sign in with Google to keep your notes in cloud</string>
-    <string name="google_ps_error">Google Play Services error.</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="folder_removed_message">Note removed</string>
     <string name="undo">Cancel</string>
-    <string name="bottom_sheet_name">Name</string>
-    <string name="bottom_sheet_email">Email</string>
     <string name="settings">Settings</string>
-    <string name="user_bundle_key">fireuser</string>
-    <string name="hint_title">Title...</string>
+    <string name="hint_title">Title…</string>
     <string name="menu_item_smth">Something</string>
-    <string name="menu_sort">Sort</string>
-    <string name="foldername_key">folder_name</string>
-    <string name="swith_dark_summary">turns on Dark theme</string>
-    <string name="switch_dark_title">Dark theme</string>
+    <string name="hint_note">Note…</string>
+
+    <string name="dbname" translatable="false">notesDB</string>
+
+    <string name="prefs_ghub_link" translatable="false">https://github.com/SomeSimpleThings/simplelist</string>
+    <string name="prefs_ghub" translatable="false">Github</string>
+
     <string name="title_activity_settings">Settings</string>
+    <string name="pref_dark_theme" translatable="false">dark_theme</string>
+    <string name="prefs_switch_dark_title">Dark theme</string>
+    <string name="prefs_swith_dark_summary">turns on Dark theme</string>
+    <string name="prefs_gdrive_sync">Sync with google drive</string>
+    <string name="prefs_developer">Makesomethingsimple inc</string>
+    <string name="prefs_developer_title">Developer</string>
+    <string name="prefs_version_title">Version</string>
+    <string name="user_picture">User picture</string>
 
 </resources>
