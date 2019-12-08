@@ -11,7 +11,7 @@ import java.util.List;
 @Dao
 public interface NoteDao extends BaseDao<Note> {
 
-    @Query("SELECT * FROM Note WHERE folderId = :folderId ORDER by position")
+    @Query("SELECT * FROM Note WHERE folderId = :folderId ORDER by checked, position")
     LiveData<List<Note>> getNotes(long folderId);
 
     @Query("SELECT * from Note WHERE noteId = :id")

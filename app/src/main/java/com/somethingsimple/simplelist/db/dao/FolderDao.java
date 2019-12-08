@@ -21,7 +21,11 @@ public abstract class FolderDao implements BaseDao<Folder> {
 //    @Query("SELECT * FROM Folder  ORDER by position DESC")
 //    public abstract LiveData<List<Folder>> getFoldersOrdered();
 
-    @Query("SELECT noteText FROM note WHERE folderId = :folderId LIMIT 4")
+    @Query("SELECT noteText " +
+            "FROM note " +
+            "WHERE folderId = :folderId " +
+            "ORDER by checked, position " +
+            "LIMIT 4")
     public abstract List<String> selectNames(long folderId);
 
     @Transaction

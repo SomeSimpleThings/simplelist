@@ -35,14 +35,15 @@
                 android:ellipsize="end"
                 android:hint="@string/hint_note"
                 android:imeOptions="actionDone"
+                android:importantForAutofill="no"
+                android:inputType="text"
                 android:singleLine="true"
                 android:text="@={note.noteText}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/note_checkBox"
                 app:layout_constraintTop_toBottomOf="parent"
-                android:inputType="text"
-                android:importantForAutofill="no" />
+                app:strikethrough="@{note.checked}" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -55,6 +56,5 @@
         <variable
             name="note"
             type="com.somethingsimple.simplelist.db.entity.Note" />
-
     </data>
 </layout>

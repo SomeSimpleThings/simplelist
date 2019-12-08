@@ -1,10 +1,13 @@
 package com.somethingsimple.simplelist.view.note;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class NotesAdapter extends  RecyclerView.Adapter<NotesAdapter.NotesViewHolder>
+public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder>
         implements ItemTouchHelperActions {
 
     private List<Note> mNotes;
@@ -28,6 +31,16 @@ public class NotesAdapter extends  RecyclerView.Adapter<NotesAdapter.NotesViewHo
     public NotesAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
         mDeletedNotes = new ArrayList<>();
+    }
+
+    @BindingAdapter("strikethrough")
+    public static void strikethrough(EditText editText, boolean strike) {
+        if (strike)
+            editText.setPaintFlags(editText.getPaintFlags()
+                    | Paint.STRIKE_THRU_TEXT_FLAG);
+        else
+            editText.setPaintFlags(editText.getPaintFlags()
+                    & Paint.STRIKE_THRU_TEXT_FLAG);
     }
 
     @NonNull
