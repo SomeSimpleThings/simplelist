@@ -65,10 +65,9 @@ public class MainActivity extends AppCompatActivity implements Preference.OnPref
     }
 
     private void applyTheme(boolean dark) {
-        if (dark)
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        else
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        int nightMode = dark ?
+                AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO;
+        AppCompatDelegate.setDefaultNightMode(nightMode);
 
     }
 }

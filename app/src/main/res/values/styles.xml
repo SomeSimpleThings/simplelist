@@ -9,32 +9,31 @@
         <item name="android:label">@color/buttonLabel</item>
         <item name="android:textColorPrimary">@color/primary_text</item>
         <item name="android:textColorSecondary">@color/secondary_text</item>
+        <item name="android:windowBackground">@color/background</item>
         <item name="iconColor">@color/iconColor</item>
         <item name="divider">@color/divider</item>
         <item name="colorPrimaryAttr">@color/colorPrimary</item>
         <item name="colorPrimaryDarkAttr">@color/colorPrimaryDark</item>
         <item name="textColorPrimaryAttr">@color/primary_text</item>
+        <item name="accentColorAttr">@color/colorAccent</item>
         <!--        <item name="wBackground"-->
         <item name="navBarColor">@color/colorPrimaryDark</item>
-        <item name="accentColorAttr">@color/colorAccent</item>
     </style>
 
-    <style name="folder_title">
+    <style name="recycler_item_text">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:textSize">30sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:textColorPrimary">@color/primary_text</item>
+        <item name="android:textColorSecondary">@color/secondary_text</item>
+        <item name="android:layout_marginBottom">3dp</item>
         <item name="android:paddingLeft">8dp</item>
     </style>
-
-    <style name="note_text">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">30dp</item>
-        <item name="android:textSize">25sp</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:layout_marginBottom">6dp</item>
-        <item name="android:paddingLeft">8dp</item>
+    <style name="note_name">
+        <item name="android:textColorPrimary">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/colorAccent</item>
     </style>
 
 </resources>

@@ -6,6 +6,7 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,6 +15,7 @@
             android:background="@drawable/rounded_background">
 
             <TextView
+                style="@style/note_name"
                 android:id="@+id/folder_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -26,11 +28,10 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                style="@style/recycler_item_text"
                 android:id="@+id/folder_text"
-                style="@style/folder_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:hint="@string/hint_note"
                 android:maxLines="3"
                 android:onClick="@{(view) -> handler.onFolderClick(folder)}"
