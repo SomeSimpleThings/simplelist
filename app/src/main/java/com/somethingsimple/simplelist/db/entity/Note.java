@@ -60,7 +60,7 @@ public class Note implements Parcelable {
     @Expose
     private boolean checked;
 
-    public Note(long folderId, int position,  boolean checkable) {
+    public Note(long folderId, int position, boolean checkable) {
         this.noteText = "";
         this.folderId = folderId;
         this.position = position;
@@ -148,6 +148,15 @@ public class Note implements Parcelable {
     @Override
     public String toString() {
         return noteId + " " + noteText;
+    }
+
+    public String toFormattedString() {
+        String text = "";
+        if (checkable) {
+            text = checked ? text + "\u2611" : "\u2610";
+        }
+        text = text + noteText;
+        return text;
     }
 
     @Override

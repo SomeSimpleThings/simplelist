@@ -78,6 +78,14 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         return mNotes;
     }
 
+    public String getNotesForSend() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Note note : getNotes()) {
+            stringBuilder.append(note.toFormattedString()).append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
     public List<Note> getDeletedNotes() {
         return mDeletedNotes;
     }

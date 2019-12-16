@@ -1,6 +1,8 @@
 package com.somethingsimple.simplelist.view.note;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -100,10 +103,16 @@ public class NoteDetailsFragment extends Fragment
     }
 
     private void updateAndNavigateBack() {
+        hideKeyboard();
         noteViewModel.update(adapter.getNotes(), adapter.getDeletedNotes());
         noteViewModel.updateFolder(binding.getFolder());
         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(
                 R.id.action_noteDetailsFragment_to_noteListFragment);
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 
     @Override
@@ -131,9 +140,23 @@ public class NoteDetailsFragment extends Fragment
             case R.id.menu_item_add_text:
                 adapter.addNote(binding.getFolder().getId());
                 return true;
+            case R.id.menu_item_share:
+                shareNote();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void shareNote() {
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, adapter.getNotesForSend());
+        sendIntent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(sendIntent, null);
+        startActivity(shareIntent);
     }
 
     @Override

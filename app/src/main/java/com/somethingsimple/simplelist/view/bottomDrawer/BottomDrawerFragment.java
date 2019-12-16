@@ -86,9 +86,12 @@ public class BottomDrawerFragment extends BottomSheetDialogFragment
         super.onActivityCreated(savedInstanceState);
 
         NavigationView drawerNavigation = getView().findViewById(R.id.navigation_view);
+        String title = mFirebaseAuth.getCurrentUser() == null ?
+                getString(R.string.sign_in) :
+                getString(R.string.sign_out);
         drawerNavigation.getMenu()
                 .findItem(R.id.sign_out_menu_drawer)
-                .setTitle(getString(R.string.sign_in));
+                .setTitle(title);
 
         drawerNavigation.setNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
