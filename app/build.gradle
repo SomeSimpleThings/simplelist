@@ -5,13 +5,13 @@ android {
 
     signingConfigs {
         debug {
-            def KEYSTORE_FILE = rootProject.file("keystore.properties")
-            def keystoreProperties = new Properties()
-            keystoreProperties.load(new FileInputStream(KEYSTORE_FILE))
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
+//            def KEYSTORE_FILE = rootProject.file("keystore.properties")
+//            def keystoreProperties = new Properties()
+//            keystoreProperties.load(new FileInputStream(KEYSTORE_FILE))
+//            keyAlias keystoreProperties['keyAlias']
+//            keyPassword keystoreProperties['keyPassword']
+//            storeFile file(keystoreProperties['storeFile'])
+//            storePassword keystoreProperties['storePassword']
         }
     }
     compileSdkVersion 29
@@ -43,7 +43,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-    buildToolsVersion '29.0.2'
+    buildToolsVersion '29.0.3'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -58,17 +58,17 @@ android {
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-rc02'
-    implementation "androidx.navigation:navigation-fragment:2.2.0-rc02"
-    implementation "androidx.navigation:navigation-ui:2.2.0-rc02"
-    implementation 'androidx.preference:preference:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation "androidx.navigation:navigation-fragment:2.3.0"
+    implementation "androidx.navigation:navigation-ui:2.3.0"
+    implementation 'androidx.preference:preference:1.1.1'
 
-    implementation 'com.google.android.material:material:1.2.0-alpha02'
+    implementation 'com.google.android.material:material:1.3.0-alpha02'
 
     //room
-    implementation 'androidx.room:room-runtime:2.2.2'
+    implementation 'androidx.room:room-runtime:2.2.5'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    annotationProcessor "androidx.room:room-compiler:2.2.2"
+    annotationProcessor "androidx.room:room-compiler:2.2.5"
     //dagger
     implementation 'com.google.dagger:dagger:2.25.2'
     implementation 'com.google.dagger:dagger-android:2.25.2'
@@ -76,9 +76,9 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.25.2'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.25.2'
     //firebase
-    implementation 'com.google.android.gms:play-services-auth:17.0.0'
-    implementation 'com.google.firebase:firebase-auth:19.2.0'
-    implementation 'com.google.firebase:firebase-core:17.2.1'
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
+    implementation 'com.google.firebase:firebase-auth:19.3.2'
+    implementation 'com.google.firebase:firebase-core:17.4.4'
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
@@ -90,8 +90,8 @@ dependencies {
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.3.0-alpha02'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha02'
+    androidTestImplementation 'androidx.test:runner:1.3.0-rc02'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-rc02'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
 }
