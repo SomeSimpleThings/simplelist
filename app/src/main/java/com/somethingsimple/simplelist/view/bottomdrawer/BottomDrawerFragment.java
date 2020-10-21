@@ -1,4 +1,4 @@
-package com.somethingsimple.simplelist.view.bottomDrawer;
+package com.somethingsimple.simplelist.view.bottomdrawer;
 
 import android.content.Intent;
 import android.net.Uri;

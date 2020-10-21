@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.somethingsimple.simplelist.R;
 import com.somethingsimple.simplelist.databinding.NoteItemBinding;
 import com.somethingsimple.simplelist.db.entity.Note;
-import com.somethingsimple.simplelist.swipeInteractions.ItemTouchHelperActions;
+import com.somethingsimple.simplelist.swipeinteractions.ItemTouchHelperActions;
 
 import java.util.ArrayList;
 import java.util.Collections;

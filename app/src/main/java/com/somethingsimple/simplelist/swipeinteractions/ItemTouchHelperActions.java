@@ -1,4 +1,4 @@
-package com.somethingsimple.simplelist.swipeInteractions;
+package com.somethingsimple.simplelist.swipeinteractions;
 
 public interface ItemTouchHelperActions {
 

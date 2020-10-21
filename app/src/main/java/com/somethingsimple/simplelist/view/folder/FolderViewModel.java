@@ -9,7 +9,7 @@ import androidx.lifecycle.MediatorLiveData;
 
 import com.somethingsimple.simplelist.db.FolderRepository;
 import com.somethingsimple.simplelist.db.entity.Folder;
-import com.somethingsimple.simplelist.swipeInteractions.SingleLiveEvent;
+import com.somethingsimple.simplelist.swipeinteractions.SingleLiveEvent;
 
 import java.util.List;
 

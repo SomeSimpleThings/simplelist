@@ -10,7 +10,7 @@
 
         <variable
             name="handler"
-            type="com.somethingsimple.simplelist.view.bottomDrawer.BottomDrawerFragment" />
+            type="com.somethingsimple.simplelist.view.bottomdrawer.BottomDrawerFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

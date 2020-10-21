@@ -19,8 +19,8 @@ public class FolderRepository {
     private final ExecutorService executorService;
 
     @Inject
-    public FolderRepository(FolderDao Dao) {
-        folderDao = Dao;
+    public FolderRepository(FolderDao dao) {
+        folderDao = dao;
         executorService = Executors.newSingleThreadExecutor();
     }
 

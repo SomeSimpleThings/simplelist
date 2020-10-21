@@ -1,4 +1,4 @@
-package com.somethingsimple.simplelist.swipeInteractions;
+package com.somethingsimple.simplelist.swipeinteractions;
 
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
@@ -15,6 +15,7 @@ public class SingleLiveEvent<T> extends MutableLiveData<T> {
     private final AtomicBoolean mPending = new AtomicBoolean(false);
 
     @MainThread
+    @Override
     public void observe(@NotNull LifecycleOwner owner, @NotNull final Observer<? super T> observer) {
 
         hasActiveObservers();
@@ -28,6 +29,7 @@ public class SingleLiveEvent<T> extends MutableLiveData<T> {
     }
 
     @MainThread
+    @Override
     public void setValue(@Nullable T t) {
         mPending.set(true);
         super.setValue(t);

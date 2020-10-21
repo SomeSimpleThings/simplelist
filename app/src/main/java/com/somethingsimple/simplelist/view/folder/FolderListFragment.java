@@ -23,12 +23,14 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.somethingsimple.simplelist.R;
-import com.somethingsimple.simplelist.swipeInteractions.SwipeCallback;
-import com.somethingsimple.simplelist.swipeInteractions.SwipeCallbackListener;
+import com.somethingsimple.simplelist.swipeinteractions.SwipeCallback;
+import com.somethingsimple.simplelist.swipeinteractions.SwipeCallbackListener;
 
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
+
+import static com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -115,7 +117,7 @@ public class FolderListFragment extends Fragment
 
     @Override
     public void onSwipe() {
-        Snackbar.make(getView(), R.string.folder_removed_message, Snackbar.LENGTH_SHORT)
+        Snackbar.make(getView(), R.string.folder_removed_message, LENGTH_SHORT)
                 .setAction(R.string.undo, v ->
                         adapter.undoDelete())
                 .addCallback(new Snackbar.Callback() {

@@ -19,3 +19,7 @@ jobs:
         java-version: 1.8
     - name: Build with Gradle
       run: ./gradlew build
+      env:
+        RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+        RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}

@@ -12,7 +12,7 @@ import androidx.preference.Preference;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.somethingsimple.simplelist.R;
-import com.somethingsimple.simplelist.view.bottomDrawer.BottomDrawerFragment;
+import com.somethingsimple.simplelist.view.bottomdrawer.BottomDrawerFragment;
 
 import javax.inject.Inject;
 

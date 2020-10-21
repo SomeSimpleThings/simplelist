@@ -48,7 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
             SwitchPreferenceCompat darkThemePreference =
                     getPreferenceManager().findPreference(getString(R.string.pref_dark_theme));
             darkThemePreference.setOnPreferenceChangeListener((preference, newValue) -> {
-                int nightMode = (Boolean) newValue ?
+                int nightMode = (boolean) newValue ?
                         AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO;
                 AppCompatDelegate.setDefaultNightMode(nightMode);
                 return true;

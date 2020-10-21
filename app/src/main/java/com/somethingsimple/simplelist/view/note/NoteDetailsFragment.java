@@ -28,12 +28,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.somethingsimple.simplelist.R;
 import com.somethingsimple.simplelist.databinding.FragmentNoteDetailsBinding;
-import com.somethingsimple.simplelist.swipeInteractions.SwipeCallback;
-import com.somethingsimple.simplelist.swipeInteractions.SwipeCallbackListener;
+import com.somethingsimple.simplelist.swipeinteractions.SwipeCallback;
+import com.somethingsimple.simplelist.swipeinteractions.SwipeCallbackListener;
 
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
+
+import static com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -161,7 +163,7 @@ public class NoteDetailsFragment extends Fragment
 
     @Override
     public void onSwipe() {
-        Snackbar.make(binding.getRoot(), R.string.folder_removed_message, Snackbar.LENGTH_LONG)
+        Snackbar.make(binding.getRoot(), R.string.folder_removed_message, LENGTH_LONG)
                 .setAction(R.string.undo, v ->
                         adapter.undoDelete())
                 .show();

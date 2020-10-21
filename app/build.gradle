@@ -1,21 +1,32 @@
 apply plugin: 'com.android.application'
 
-
+def release_store_password
+def release_key_password
+def release_key_alias
+def keystoreProperties = new Properties()
+if (rootProject.file("keystore.properties").exists()) {
+    keystoreProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
+    release_store_password = keystoreProperties['RELEASE_STORE_PASSWORD']
+    release_key_password = keystoreProperties['RELEASE_KEY_PASSWORD']
+    release_key_alias = keystoreProperties['RELEASE_KEY_ALIAS']
+} else {
+    release_store_password = System.env.RELEASE_STORE_PASSWORD
+    release_key_password = System.env.RELEASE_KEY_PASSWORD
+    release_key_alias = System.env.RELEASE_KEY_ALIAS
+}
 android {
 
     signingConfigs {
-        debug {
-//            def KEYSTORE_FILE = rootProject.file("keystore.properties")
-//            def keystoreProperties = new Properties()
-//            keystoreProperties.load(new FileInputStream(KEYSTORE_FILE))
-//            keyAlias keystoreProperties['keyAlias']
-//            keyPassword keystoreProperties['keyPassword']
-//            storeFile file(keystoreProperties['storeFile'])
-//            storePassword keystoreProperties['storePassword']
+        release {
+            storeFile file("../simpleinc.jks")
+            storePassword = release_store_password
+            keyAlias = release_key_alias
+            keyPassword = release_key_password
         }
     }
     compileSdkVersion 30
     defaultConfig {
+        signingConfig signingConfigs.debug
         applicationId "com.somethingsimple.simplelist"
         minSdkVersion 23
         targetSdkVersion 30
@@ -28,7 +39,6 @@ android {
                                      "$projectDir/schemas".toString()]
             }
         }
-        signingConfig signingConfigs.debug
     }
     sourceSets {
         androidTest.assets.srcDirs +=
@@ -37,6 +47,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
@@ -50,20 +61,21 @@ android {
     }
     productFlavors {
     }
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding = true
     }
+    ndkVersion '21.3.6528147'
 }
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation "androidx.navigation:navigation-fragment:2.3.0"
-    implementation "androidx.navigation:navigation-ui:2.3.0"
+    implementation "androidx.navigation:navigation-fragment:2.3.1"
+    implementation "androidx.navigation:navigation-ui:2.3.1"
     implementation 'androidx.preference:preference:1.1.1'
 
-    implementation 'com.google.android.material:material:1.3.0-alpha02'
+    implementation 'com.google.android.material:material:1.3.0-alpha03'
 
     //room
     implementation 'androidx.room:room-runtime:2.2.5'
@@ -78,7 +90,7 @@ dependencies {
     //firebase
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
     implementation 'com.google.firebase:firebase-auth:19.4.0'
-    implementation 'com.google.firebase:firebase-core:17.5.0'
+    implementation 'com.google.firebase:firebase-core:17.5.1'
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.somethingsimple.simplelist.R;
 import com.somethingsimple.simplelist.databinding.RecyclerviewItemBinding;
 import com.somethingsimple.simplelist.db.entity.Folder;
-import com.somethingsimple.simplelist.swipeInteractions.ItemTouchHelperActions;
+import com.somethingsimple.simplelist.swipeinteractions.ItemTouchHelperActions;
 
 import java.util.Collections;
 import java.util.List;
@@ -74,10 +74,10 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Fo
         }
         RecyclerviewItemBinding binding =
                 DataBindingUtil.inflate(mInflater, R.layout.recyclerview_item, parent, false);
-        binding.setHandler(folder -> {
-            //// TODO: 2019-09-30 remove this ugly code
-            mFolderViewModel.openFolder(folder);
-        });
+        binding.setHandler(folder ->
+                //// TODO: 2019-09-30 remove this ugly code
+                mFolderViewModel.openFolder(folder));
+
         return new FolderListAdapter.FolderViewHolder(binding);
     }
 
