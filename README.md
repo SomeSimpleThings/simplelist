@@ -1,6 +1,8 @@
 # Simplelist
 Simple project to learn about Android architecture components and some other
 
+[![Known Vulnerabilities](https://snyk.io/test/github/SomeSimpleThings/simplelist/badge.svg?targetFile=app/build.gradle)](https://snyk.io/test/github/SomeSimpleThings/simplelist?targetFile=app/build.gradle)
+
 ## It  uses
 * [Room Persistence Library](https://developer.android.com/topic/libraries/architecture/room)
 * [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
