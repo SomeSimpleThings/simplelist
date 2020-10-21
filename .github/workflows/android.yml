@@ -28,7 +28,7 @@ jobs:
       - name: Decode release keystore
         env:
           APP_KEYSTORE: ${{ secrets.APP_KEYSTORE }}
-        run: echo $APP_KEYSTORE | base64 --decode > app/simpleinc.jks
+        run: echo $APP_KEYSTORE | base64 -di > app/simpleinc.jks
       - name: Build with Gradle
         env:
           RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
